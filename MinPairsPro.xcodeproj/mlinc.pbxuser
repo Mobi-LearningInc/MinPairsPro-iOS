@@ -1,0 +1,117 @@
+// !$*UTF8*$!
+{
+	51F8748A190835BE00450DB2 /* Project object */ = {
+		activeBuildConfigurationName = Debug;
+		activeExecutable = EB2951FF1938411E008BA16D /* MinPairs */;
+		activeTarget = 51F87491190835BE00450DB2 /* MinPairs */;
+		codeSenseManager = EB29541119384146008BA16D /* Code sense */;
+		executables = (
+			EB2951FF1938411E008BA16D /* MinPairs */,
+		);
+		perUserDictionary = {
+			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					356,
+					20,
+					48,
+					43,
+					43,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXPerProjectTemplateStateSaveDate = 423117864;
+			PBXWorkspaceStateSaveDate = 423117864;
+		};
+		perUserProjectItems = {
+			EB9FCE951938444C004AEA11 /* PBXBookmark */ = EB9FCE951938444C004AEA11 /* PBXBookmark */;
+			EB9FCE9B1938444C004AEA11 /* PBXTextBookmark */ = EB9FCE9B1938444C004AEA11 /* PBXTextBookmark */;
+		};
+		sourceControlManager = EB29541019384146008BA16D /* Source Control */;
+		userBuildSettings = {
+		};
+	};
+	51F87491190835BE00450DB2 /* MinPairs */ = {
+		activeExec = 0;
+		executables = (
+			EB2951FF1938411E008BA16D /* MinPairs */,
+		);
+	};
+	51F874B5190835BE00450DB2 /* MinPairsTests */ = {
+		activeExec = 0;
+	};
+	CA1C024A190C0477003C5F90 /* Main_iPhone.storyboard */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1804, 27235}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1196}";
+			sepNavWindowFrame = "{{19, 42}, {980, 731}}";
+		};
+	};
+	EB2951FF1938411E008BA16D /* MinPairs */ = {
+		isa = PBXExecutable;
+		activeArgIndices = (
+		);
+		argumentStrings = (
+		);
+		autoAttachOnCrash = 1;
+		breakpointsEnabled = 0;
+		configStateDict = {
+		};
+		customDataFormattersEnabled = 1;
+		dataTipCustomDataFormattersEnabled = 1;
+		dataTipShowTypeColumn = 1;
+		dataTipSortType = 0;
+		debuggerPlugin = GDBDebugging;
+		disassemblyDisplayState = 0;
+		enableDebugStr = 1;
+		environmentEntries = (
+		);
+		executableSystemSymbolLevel = 0;
+		executableUserSymbolLevel = 0;
+		libgmallocEnabled = 0;
+		name = MinPairs;
+		showTypeColumn = 0;
+		sourceDirectories = (
+		);
+	};
+	EB29541019384146008BA16D /* Source Control */ = {
+		isa = PBXSourceControlManager;
+		fallbackIsa = XCSourceControlManager;
+		isSCMEnabled = 0;
+		scmConfiguration = {
+			repositoryNamesForRoots = {
+				"" = "";
+			};
+		};
+	};
+	EB29541119384146008BA16D /* Code sense */ = {
+		isa = PBXCodeSenseManager;
+		indexTemplatePath = "";
+	};
+	EB9FCE951938444C004AEA11 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = CA1C024A190C0477003C5F90 /* Main_iPhone.storyboard */;
+	};
+	EB9FCE9B1938444C004AEA11 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = CA1C024A190C0477003C5F90 /* Main_iPhone.storyboard */;
+		name = "Main_iPhone.storyboard: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1196;
+		vrLoc = 0;
+	};
+}

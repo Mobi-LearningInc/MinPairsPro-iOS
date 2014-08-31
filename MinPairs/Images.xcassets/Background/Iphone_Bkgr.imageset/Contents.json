@@ -1,0 +1,24 @@
+{
+  "images" : [
+    {
+      "idiom" : "iphone",
+      "scale" : "1x",
+      "filename" : "Iphone_Bkgr.png"
+    },
+    {
+      "idiom" : "iphone",
+      "scale" : "2x",
+      "filename" : "Iphone_Bkgr@2x.png"
+    },
+    {
+      "idiom" : "iphone",
+      "filename" : "Iphone_Bkgr@R4.png",
+      "subtype" : "retina4",
+      "scale" : "2x"
+    }
+  ],
+  "info" : {
+    "version" : 1,
+    "author" : "xcode"
+  }
+}
