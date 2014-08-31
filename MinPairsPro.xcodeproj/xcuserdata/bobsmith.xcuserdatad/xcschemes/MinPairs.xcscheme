@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "51F87491190835BE00450DB2"
-               BuildableName = "MinimalPairs.app"
+               BuildableName = "MinimalPairs Pro.app"
                BlueprintName = "MinPairsPro"
                ReferencedContainer = "container:MinPairsPro.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "51F874B5190835BE00450DB2"
-               BuildableName = "MinPairsTests.xctest"
+               BuildableName = "MinPairsProTests.xctest"
                BlueprintName = "MinPairsProTests"
                ReferencedContainer = "container:MinPairsPro.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "51F87491190835BE00450DB2"
-            BuildableName = "MinimalPairs.app"
+            BuildableName = "MinimalPairs Pro.app"
             BlueprintName = "MinPairsPro"
             ReferencedContainer = "container:MinPairsPro.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "51F87491190835BE00450DB2"
-            BuildableName = "MinimalPairs.app"
+            BuildableName = "MinimalPairs Pro.app"
             BlueprintName = "MinPairsPro"
             ReferencedContainer = "container:MinPairsPro.xcodeproj">
          </BuildableReference>
@@ -80,7 +80,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "51F87491190835BE00450DB2"
-            BuildableName = "MinimalPairs.app"
+            BuildableName = "MinimalPairs Pro.app"
             BlueprintName = "MinPairsPro"
             ReferencedContainer = "container:MinPairsPro.xcodeproj">
          </BuildableReference>

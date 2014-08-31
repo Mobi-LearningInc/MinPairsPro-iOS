@@ -2562,6 +2562,7 @@
 				);
 				PRODUCT_NAME = "MinimalPairs Pro";
 				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=*]" = "8578a7bd-dae9-4b09-b635-00b373947e29";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -2594,7 +2595,8 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "MinimalPairs Pro";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "1087827f-62de-4d6d-9303-335871274071";
+				"PROVISIONING_PROFILE[sdk=*]" = "1087827f-62de-4d6d-9303-335871274071";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
