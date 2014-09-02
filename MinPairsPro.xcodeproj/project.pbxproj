@@ -342,6 +342,7 @@
 		E1C248AC190AFAC100F9E8BF /* MLTestResult.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C248AB190AFAC100F9E8BF /* MLTestResult.m */; };
 		E1E19F3A1909E54700208ECD /* MLSoundChartCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E1E19F391909E54700208ECD /* MLSoundChartCollectionViewCell.m */; };
 		E1E19F3D1909E80400208ECD /* MLSoundChartCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1E19F3C1909E80400208ECD /* MLSoundChartCollectionViewController.m */; };
+		E1E5BCDE19B614FF006FC591 /* MLPackageList.m in Sources */ = {isa = PBXBuildFile; fileRef = E1E5BCDD19B614FF006FC591 /* MLPackageList.m */; };
 		E1F4F8A71964A1440047CCFC /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1F4F8A11964A1440047CCFC /* AdSupport.framework */; };
 		E1F4F8A81964A1440047CCFC /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1F4F8A21964A1440047CCFC /* AudioToolbox.framework */; };
 		E1F4F8A91964A1440047CCFC /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1F4F8A31964A1440047CCFC /* AVFoundation.framework */; };
@@ -943,6 +944,8 @@
 		E1E19F391909E54700208ECD /* MLSoundChartCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLSoundChartCollectionViewCell.m; sourceTree = "<group>"; };
 		E1E19F3B1909E80400208ECD /* MLSoundChartCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLSoundChartCollectionViewController.h; sourceTree = "<group>"; };
 		E1E19F3C1909E80400208ECD /* MLSoundChartCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLSoundChartCollectionViewController.m; sourceTree = "<group>"; };
+		E1E5BCDC19B614FF006FC591 /* MLPackageList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLPackageList.h; sourceTree = "<group>"; };
+		E1E5BCDD19B614FF006FC591 /* MLPackageList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLPackageList.m; sourceTree = "<group>"; };
 		E1F4F8A11964A1440047CCFC /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		E1F4F8A21964A1440047CCFC /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		E1F4F8A31964A1440047CCFC /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -1869,6 +1872,8 @@
 				E13DB39B19390711008720B9 /* MLFilterChangeListener.h */,
 				E11C738919B523E2006B22F0 /* MLPackageDownloader.h */,
 				E11C738A19B523E2006B22F0 /* MLPackageDownloader.m */,
+				E1E5BCDC19B614FF006FC591 /* MLPackageList.h */,
+				E1E5BCDD19B614FF006FC591 /* MLPackageList.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -2377,6 +2382,7 @@
 				E16B4BDF19316A70000C704D /* MLDetailTableCellTypeOne.m in Sources */,
 				E16B4BE219316A8D000C704D /* MLDetailTableCellTypeTwo.m in Sources */,
 				E1C2489F190AC30300F9E8BF /* MLMainDataProvider.m in Sources */,
+				E1E5BCDE19B614FF006FC591 /* MLPackageList.m in Sources */,
 				CA1C0246190BDB99003C5F90 /* MLFilterViewController.m in Sources */,
 				CA1C023A190BC38B003C5F90 /* MLSynchronousFilter.m in Sources */,
 				CA13C50B1989EEFC00521FFA /* OAToken.m in Sources */,

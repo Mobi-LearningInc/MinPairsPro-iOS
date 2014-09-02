@@ -17,6 +17,7 @@
 #import "MLLsrCredentials.h"
 #import "MLLrsCredentialsDatabase.h"
 #import "MLPackageDownloader.h"
+#import "MLPackageList.h"
 
 @interface MLViewController ()
 @property (nonatomic, strong) MLLrsCredentialsDatabase* lrsDatabase;
@@ -80,12 +81,23 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
         [self.tincan saveSampleActivity];
     }
-    //check if default package is installed
-    MLPackageDownloader* packDown = [[MLPackageDownloader alloc]init];
-    NSArray* packages=[packDown getDownloadablePackages];
+    //todo:check if default package is installed
+    
+    //testing downloader classes and server
     #ifdef DEBUG
-        NSLog(@"Downloadable packages:%@", packages);
+        NSLog(@"Downloading data...");
     #endif
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    MLPackageDownloader* packDown = [[MLPackageDownloader alloc]init];
+    MLPackageList* packages=[packDown getDownloadablePackages];
+    #ifdef DEBUG
+        NSLog(@"Downloadable packages:%@ \n DetailServlet:%@ \n DetailServletParam:%@", packages.packageList,[packages.detailsServletUrl absoluteString],packages.detailsServletpackageIdParamName);
+    #endif
+        NSArray* fileList=[packDown getFileUrlForPackage:packages packageName:[packages.packageList objectAtIndex:0]];
+    #ifdef DEBUG
+           NSLog(@"Files for %@ package :\n %@",[packages.packageList objectAtIndex:0],fileList);
+    #endif
+    });
 }
 
 - (void)didReceiveMemoryWarning

@@ -9,37 +9,43 @@
 #import "MLPackageDownloader.h"
 
 @implementation MLPackageDownloader
--(NSArray*)getDownloadablePackages
+-(MLPackageList*)getDownloadablePackages
 {
-    /*
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSData* data = [NSData dataWithContentsOfURL:
-                        SERVER_PACKAGELIST_ADDRESS];
-        [self performSelectorOnMainThread:@selector(processData:)
-                               withObject:data waitUntilDone:YES];
-    });
-     */
     NSData* data = [NSData dataWithContentsOfURL:
-                    SERVER_PACKAGELIST_ADDRESS];
+                    [SERVER_ADDRESS URLByAppendingPathComponent:PACKAGELIST_SERVLET_NAME]];
     NSError* error;
     NSDictionary* json = [NSJSONSerialization
                           JSONObjectWithData:data
                           options:kNilOptions
                           error:&error];
     
-    NSArray* packages = [json objectForKey:@"packageList"];
-    return packages;
+    NSArray* packages ;
+    if([[json objectForKey:PACKAGELIST_JSON_KEY_PACKAGELIST] isKindOfClass:[NSArray class]])
+    {
+        packages =[json objectForKey:PACKAGELIST_JSON_KEY_PACKAGELIST];
+    }
+    else
+    {
+        packages = [NSArray arrayWithObject:[json objectForKey:PACKAGELIST_JSON_KEY_PACKAGELIST]];
+    }
+    NSURL* detailServletUrl=[SERVER_ADDRESS URLByAppendingPathComponent:[json objectForKey:PACKAGELIST_JSON_KEY_DETAIL_SERVLET_NAME]];
+    NSString* detailServletParam = [json objectForKey:PACKAGELIST_JSON_KEY_DETAIL_SERVLET_PARAM_NAME_PACKAGE_ID];
+    return [[MLPackageList alloc]initWithList:packages detailServletUrl:detailServletUrl paramName:detailServletParam];
 }
--(void)processData:(NSData *)responseData
+-(NSArray*)getFileUrlForPackage:(MLPackageList*)list packageName:(NSString*)packageId
 {
+    NSLog(@"%@,%@",list,packageId);
+    NSString* queryStr = [NSString stringWithFormat:@"?%@=%@",list.detailsServletpackageIdParamName,packageId];
+    NSURL* fullPath = [NSURL URLWithString:[list.detailsServletUrl.absoluteString stringByAppendingString: queryStr]];
+    NSLog(@"%@",fullPath.absoluteString);
+    NSData* data = [NSData dataWithContentsOfURL:fullPath];
     NSError* error;
     NSDictionary* json = [NSJSONSerialization
-                          JSONObjectWithData:responseData
+                          JSONObjectWithData:data
                           options:kNilOptions
                           error:&error];
+    NSArray* fileUrlList =[json objectForKey:PACKAGEDETAIL_JSON_KEY_FILELIST];
+    return fileUrlList;
     
-    NSArray* packages = [json objectForKey:@"packageList"];
-    
-    //NSLog(@"packages: %@", packages);
 }
 @end
