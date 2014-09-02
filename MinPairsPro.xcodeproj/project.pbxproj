@@ -315,6 +315,7 @@
 		E109704F19096AC9000C7E11 /* MLItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E109704E19096AC9000C7E11 /* MLItem.m */; };
 		E109705519096ECB000C7E11 /* MLPair.m in Sources */ = {isa = PBXBuildFile; fileRef = E109705419096ECB000C7E11 /* MLPair.m */; };
 		E109705819097120000C7E11 /* MLFileDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = E109705719097120000C7E11 /* MLFileDataProvider.m */; };
+		E11C738B19B523E2006B22F0 /* MLPackageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = E11C738A19B523E2006B22F0 /* MLPackageDownloader.m */; };
 		E12B145F1912BA1D00D697BB /* MLLearnTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E12B145E1912BA1D00D697BB /* MLLearnTableViewController.m */; };
 		E12B14621912BA8900D697BB /* MLLearnTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E12B14611912BA8900D697BB /* MLLearnTableViewCell.m */; };
 		E12E40CC190C839E0002D88C /* MLSettingsData.m in Sources */ = {isa = PBXBuildFile; fileRef = E12E40CB190C839E0002D88C /* MLSettingsData.m */; };
@@ -891,6 +892,8 @@
 		E109705419096ECB000C7E11 /* MLPair.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLPair.m; sourceTree = "<group>"; };
 		E109705619097120000C7E11 /* MLFileDataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLFileDataProvider.h; sourceTree = "<group>"; };
 		E109705719097120000C7E11 /* MLFileDataProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLFileDataProvider.m; sourceTree = "<group>"; };
+		E11C738919B523E2006B22F0 /* MLPackageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLPackageDownloader.h; sourceTree = "<group>"; };
+		E11C738A19B523E2006B22F0 /* MLPackageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLPackageDownloader.m; sourceTree = "<group>"; };
 		E12B145D1912BA1D00D697BB /* MLLearnTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLLearnTableViewController.h; sourceTree = "<group>"; };
 		E12B145E1912BA1D00D697BB /* MLLearnTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLLearnTableViewController.m; sourceTree = "<group>"; };
 		E12B14601912BA8900D697BB /* MLLearnTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLLearnTableViewCell.h; sourceTree = "<group>"; };
@@ -1864,6 +1867,8 @@
 				E19B1B33193170DF0039F58B /* MLDetailsItem.h */,
 				E19B1B34193170DF0039F58B /* MLDetailsItem.m */,
 				E13DB39B19390711008720B9 /* MLFilterChangeListener.h */,
+				E11C738919B523E2006B22F0 /* MLPackageDownloader.h */,
+				E11C738A19B523E2006B22F0 /* MLPackageDownloader.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -2385,6 +2390,7 @@
 				CA13C5021989EEFC00521FFA /* OAConsumer.m in Sources */,
 				CA1C0237190BBACC003C5F90 /* MLPQOneViewController.m in Sources */,
 				CA0343E1191E197300CAF871 /* MLInstructionsViewController.m in Sources */,
+				E11C738B19B523E2006B22F0 /* MLPackageDownloader.m in Sources */,
 				E1E19F3A1909E54700208ECD /* MLSoundChartCollectionViewCell.m in Sources */,
 				CA13C5061989EEFC00521FFA /* OAPlaintextSignatureProvider.m in Sources */,
 				CA13C51A198A010700521FFA /* MLOAuthTincanViewController.m in Sources */,

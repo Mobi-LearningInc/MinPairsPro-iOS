@@ -16,6 +16,7 @@
 #import "MLTinCanConnector.h"
 #import "MLLsrCredentials.h"
 #import "MLLrsCredentialsDatabase.h"
+#import "MLPackageDownloader.h"
 
 @interface MLViewController ()
 @property (nonatomic, strong) MLLrsCredentialsDatabase* lrsDatabase;
@@ -79,6 +80,12 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
         [self.tincan saveSampleActivity];
     }
+    //check if default package is installed
+    MLPackageDownloader* packDown = [[MLPackageDownloader alloc]init];
+    NSArray* packages=[packDown getDownloadablePackages];
+    #ifdef DEBUG
+        NSLog(@"Downloadable packages:%@", packages);
+    #endif
 }
 
 - (void)didReceiveMemoryWarning
