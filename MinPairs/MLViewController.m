@@ -18,6 +18,7 @@
 #import "MLLrsCredentialsDatabase.h"
 #import "MLPackageDownloader.h"
 #import "MLPackageList.h"
+#import "MLPackageFileList.h"
 
 @interface MLViewController ()
 @property (nonatomic, strong) MLLrsCredentialsDatabase* lrsDatabase;
@@ -95,15 +96,19 @@
     #ifdef DEBUG
         NSLog(@"Downloadable packages:%@ \n DetailServlet:%@ \n DetailServletParam:%@", packages.packageList,[packages.detailsServletUrl absoluteString],packages.detailsServletpackageIdParamName);
     #endif
-        NSArray* fileList=[packDown getFileUrlForPackage:packages packageName:[packages.packageList objectAtIndex:0]];
-            if(fileList)
+        MLPackageFileList* fileServletData=[packDown getFileUrlForPackage:packages packageName:[packages.packageList objectAtIndex:0]];
+            if(fileServletData)
             {
     #ifdef DEBUG
-           NSLog(@"Files for %@ package :\n %@",[packages.packageList objectAtIndex:0],fileList);
+           NSLog(@"Files for %@ package :\n %@ \n file servlet name:%@ \n file servlet param names : %@,%@",[packages.packageList objectAtIndex:0],fileServletData.list,fileServletData.fileServletUrl.absoluteString,fileServletData.fileServletPackageIdParamName,fileServletData.fileServletFileIdParamName);
     #endif
+                [packDown saveFilesToDisk:fileServletData];
             }
         }
     });
+#ifdef DEBUG
+    NSLog(@"main viewDidLoad finished...");
+#endif
 }
 
 - (void)didReceiveMemoryWarning

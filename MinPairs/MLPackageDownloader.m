@@ -49,7 +49,7 @@
         return nil;
     }
 }
--(NSArray*)getFileUrlForPackage:(MLPackageList*)list packageName:(NSString*)packageId
+-(MLPackageFileList*)getFileUrlForPackage:(MLPackageList*)list packageName:(NSString*)packageId
 {
     //NSLog(@"%@,%@",list,packageId);
     NSString* queryStr = [NSString stringWithFormat:@"?%@=%@",list.detailsServletpackageIdParamName,packageId];
@@ -71,7 +71,12 @@
     if(!error)
     {
         NSArray* fileUrlList =[json objectForKey:PACKAGEDETAIL_JSON_KEY_FILELIST];
-        return fileUrlList;
+        NSURL* fileServletUrl=[SERVER_ADDRESS URLByAppendingPathComponent:[json objectForKey:PACKAGEDETAIL_JSON_KEY_FILE_SERVLET_NAME]];
+        NSString* packageIdParamName = [json objectForKey:PACKAGEDETAIL_JSON_KEY_FILE_SERVLET_PARAM_NAME_PACKAGE_ID];
+        NSString* fileIdParamName = [json objectForKey:PACKAGEDETAIL_JSON_KEY_FILE_SERVLET_PARAM_NAME_FILE_ID];
+        NSString* retinalSuffix=[json objectForKey:PACKAGEDETAIL_JSON_KEY_FILE_SERVLET_PARAM_NAME_RETINA_SUFFIX];
+        MLPackageFileList* detailServletData = [[MLPackageFileList alloc]initPackageFileList:fileUrlList packageName:packageId fileServletAddress:fileServletUrl paramNamePackageId:packageIdParamName paramNameFileId:fileIdParamName retinaSuffix:retinalSuffix];
+        return detailServletData;
     }
     else
     {
@@ -81,5 +86,34 @@
         return nil;
     }
     
+}
+-(void)saveFilesToDisk:(MLPackageFileList*)files
+{
+    for(int i =0; i < files.list.count; i++)
+    {
+        
+        NSString* packageIdQuery = [NSString stringWithFormat:@"%@=%@",files.fileServletPackageIdParamName,files.fileServletPackageIdValue];
+        NSString* fileIdQuery=[NSString stringWithFormat:@"%@=%@",files.fileServletFileIdParamName,[files.list objectAtIndex:i] ];
+        NSString* queryStr = [NSString stringWithFormat:@"?%@&%@",packageIdQuery,fileIdQuery];
+        NSURL* fileAddress =[NSURL URLWithString:[files.fileServletUrl.absoluteString stringByAppendingString:queryStr]];
+    
+        #ifdef DEBUG
+                NSLog(@"Loading file from: %@",fileAddress);
+        #endif
+        NSData* data = [NSData dataWithContentsOfURL:fileAddress];
+        if(data)
+        {
+            #ifdef DEBUG
+                NSLog(@"File size:%i",data.length);
+            #endif
+            //todo: store to disk
+        }
+        else
+        {
+            #ifdef DEBUG
+                NSLog(@"Could not load file from %@",fileAddress);
+            #endif
+        }
+    }
 }
 @end
