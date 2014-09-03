@@ -90,13 +90,19 @@
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     MLPackageDownloader* packDown = [[MLPackageDownloader alloc]init];
     MLPackageList* packages=[packDown getDownloadablePackages];
+        if(packages)
+        {
     #ifdef DEBUG
         NSLog(@"Downloadable packages:%@ \n DetailServlet:%@ \n DetailServletParam:%@", packages.packageList,[packages.detailsServletUrl absoluteString],packages.detailsServletpackageIdParamName);
     #endif
         NSArray* fileList=[packDown getFileUrlForPackage:packages packageName:[packages.packageList objectAtIndex:0]];
+            if(fileList)
+            {
     #ifdef DEBUG
            NSLog(@"Files for %@ package :\n %@",[packages.packageList objectAtIndex:0],fileList);
     #endif
+            }
+        }
     });
 }
 
