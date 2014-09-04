@@ -107,13 +107,154 @@
                 NSLog(@"File size:%i",data.length);
             #endif
             //todo: store to disk
+            NSString* folderPath;
+            if([[files.list objectAtIndex:i]hasSuffix:@".png"])
+            {
+                 folderPath= [self createDirectory:@"Images"];
+                if(!folderPath)
+                {
+                    #ifdef DEBUG
+                        NSLog(@"Could not create Images folder");
+                    #endif
+                }
+            }
+            else if([[files.list objectAtIndex:i]hasSuffix:@".mp3"])
+            {
+                folderPath = [self createDirectory:@"Sounds"];
+                if(!folderPath)
+                {
+                    #ifdef DEBUG
+                        NSLog(@"Could not create Sounds folder");
+                    #endif
+                }
+            }
+            else if([[files.list objectAtIndex:i]hasSuffix:@".dat"])
+            {
+                NSString* outerPath = [self createDirectory:@"Data"];
+                if(outerPath)
+                {
+                    folderPath=[self createDirectoryWithPath:outerPath folderName:files.fileServletPackageIdValue];
+                    if(!folderPath)
+                    {
+                        #ifdef DEBUG
+                            NSLog(@"Could not create [%@] folder",files.fileServletPackageIdValue);
+                        #endif
+                    }
+                }
+                else
+                {
+                    #ifdef DEBUG
+                        NSLog(@"Could not create Data folder");
+                    #endif
+                }
+            }
+            else
+            {
+                #ifdef DEBUG
+                    NSLog(@"Unknown file format.");
+                #endif
+            }
+            if(folderPath)
+            {
+            //saving to created folder
+            NSString* filePath= [folderPath stringByAppendingPathComponent:[files.list objectAtIndex:i]];
+            if([self writeDataToDisk:data path:filePath])
+            {
+                #ifdef DEBUG
+                    NSLog(@"Saved file to %@",filePath);
+                #endif
+            }
+            else
+            {
+                #ifdef DEBUG
+                    NSLog(@"Could not save %@",filePath);
+                #endif
+            }
+            }
         }
         else
         {
             #ifdef DEBUG
-                NSLog(@"Could not load file from %@",fileAddress);
+                NSLog(@">>>>>>>Could not load file from %@",fileAddress);
             #endif
         }
+        
+    }
+}
+-(NSString*)createDirectory:(NSString*)folderName
+{
+    NSFileManager *filemgr;
+    NSArray *dirPaths;
+    NSString *docsDir;
+    NSString *newDir;
+    
+    filemgr =[NSFileManager defaultManager];
+    
+    dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
+                                                   NSUserDomainMask, YES);
+    
+    docsDir = [dirPaths lastObject];
+    newDir = [docsDir stringByAppendingPathComponent:folderName];
+    
+    BOOL isDir;
+    BOOL exists = [filemgr fileExistsAtPath:newDir isDirectory:&isDir];
+    if(!exists)
+    {
+    if ([filemgr createDirectoryAtPath:newDir withIntermediateDirectories:YES
+                            attributes:nil error: NULL] == NO)
+    {
+        return nil;
+    }
+    else
+    {
+        return newDir;
+    }
+    }
+    else
+    {
+        return newDir;
+    }
+
+}
+-(NSString*)createDirectoryWithPath:(NSString*)path folderName:(NSString*)name
+{
+    NSFileManager *filemgr;
+    NSString *docsDir;
+    NSString *newDir;
+    
+    filemgr =[NSFileManager defaultManager];
+    
+    docsDir = path;
+    newDir = [docsDir stringByAppendingPathComponent:name];
+    
+    BOOL isDir;
+    BOOL exists = [filemgr fileExistsAtPath:newDir isDirectory:&isDir];
+    if(!exists)
+    {
+        if ([filemgr createDirectoryAtPath:newDir withIntermediateDirectories:YES
+                                attributes:nil error: NULL] == NO)
+        {
+            return nil;
+        }
+        else
+        {
+            return newDir;
+        }
+    }
+    else
+    {
+        return newDir;
+    }
+}
+-(bool)writeDataToDisk:(NSData*)data path:(NSString*)filePath
+{
+    if([[NSFileManager defaultManager] fileExistsAtPath:filePath])
+    {
+        return true;
+    }
+    else
+    {
+        return [data writeToFile:filePath atomically:YES];
     }
 }
 @end
