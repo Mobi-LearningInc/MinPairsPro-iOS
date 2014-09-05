@@ -100,6 +100,15 @@
     {
         titleStr=  [self.downloadedArr objectAtIndex:indexPath.row];
         cell.textLabel.text =titleStr;
+        if([titleStr isEqual:[MLPackageDownloader getCurrentPackageName]])
+        {
+            //cell.imageView.image=[UIImage imageNamed:@"fCorrect"];
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        }
+        else
+        {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }
     }
     return cell;
 }
@@ -139,6 +148,7 @@
         packageName=  [self.downloadedArr objectAtIndex:indexPath.row];
         [MLPackageDownloader saveCurrentPackageName:packageName];
     }
+    [tableView reloadData];
 }
 
 
