@@ -82,35 +82,8 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
         [self.tincan saveSampleActivity];
     }
-    //todo:check if default package is installed
+    //todo:check if default package is installed. If not installed then download it, and set default package as selected package.
     
-    //testing downloader classes and server
-    /*
-    #ifdef DEBUG
-        NSLog(@"Downloading data...");
-    #endif
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    MLPackageDownloader* packDown = [[MLPackageDownloader alloc]init];
-    MLPackageList* packages=[packDown getDownloadablePackages];
-        if(packages)
-        {
-    #ifdef DEBUG
-        NSLog(@"Downloadable packages:%@ \n DetailServlet:%@ \n DetailServletParam:%@", packages.packageList,[packages.detailsServletUrl absoluteString],packages.detailsServletpackageIdParamName);
-    #endif
-        MLPackageFileList* fileServletData=[packDown getFileUrlForPackage:packages packageName:[packages.packageList objectAtIndex:0]];
-            if(fileServletData)
-            {
-    #ifdef DEBUG
-           NSLog(@"Files for %@ package :\n %@ \n file servlet name:%@ \n file servlet param names : %@,%@",[packages.packageList objectAtIndex:0],fileServletData.list,fileServletData.fileServletUrl.absoluteString,fileServletData.fileServletPackageIdParamName,fileServletData.fileServletFileIdParamName);
-    #endif
-                [packDown saveFilesToDisk:fileServletData];
-            }
-        }
-    });
-#ifdef DEBUG
-    NSLog(@"main viewDidLoad finished...");
-#endif
-     */
 }
 
 - (void)didReceiveMemoryWarning

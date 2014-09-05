@@ -9,7 +9,7 @@
 #import "MLPackageDownloader.h"
 
 @implementation MLPackageDownloader
--(MLPackageList*)getDownloadablePackages
++(MLPackageList*)getDownloadablePackages
 {
     NSData* data = [NSData dataWithContentsOfURL:
                     [SERVER_ADDRESS URLByAppendingPathComponent:PACKAGELIST_SERVLET_NAME]];
@@ -49,7 +49,7 @@
         return nil;
     }
 }
--(MLPackageFileList*)getFileUrlForPackage:(MLPackageList*)list packageName:(NSString*)packageId
++(MLPackageFileList*)getFileUrlForPackage:(MLPackageList*)list packageName:(NSString*)packageId
 {
     //NSLog(@"%@,%@",list,packageId);
     NSString* queryStr = [NSString stringWithFormat:@"?%@=%@",list.detailsServletpackageIdParamName,packageId];
@@ -87,7 +87,7 @@
     }
     
 }
--(void)saveFilesToDisk:(MLPackageFileList*)files
++(void)saveFilesToDisk:(MLPackageFileList*)files
 {
     for(int i =0; i < files.list.count; i++)
     {
@@ -181,7 +181,7 @@
         
     }
 }
--(NSString*)createDirectory:(NSString*)folderName
++(NSString*)createDirectory:(NSString*)folderName
 {
     NSFileManager *filemgr;
     NSArray *dirPaths;
@@ -216,7 +216,7 @@
     }
 
 }
--(NSString*)createDirectoryWithPath:(NSString*)path folderName:(NSString*)name
++(NSString*)createDirectoryWithPath:(NSString*)path folderName:(NSString*)name
 {
     NSFileManager *filemgr;
     NSString *docsDir;
@@ -246,7 +246,7 @@
         return newDir;
     }
 }
--(bool)writeDataToDisk:(NSData*)data path:(NSString*)filePath
++(bool)writeDataToDisk:(NSData*)data path:(NSString*)filePath
 {
     if([[NSFileManager defaultManager] fileExistsAtPath:filePath])
     {
@@ -257,7 +257,7 @@
         return [data writeToFile:filePath atomically:YES];
     }
 }
--(NSArray*)getInstalledPackages
++(NSArray*)getInstalledPackages
 {
     NSFileManager *filemgr;
     NSArray *dirPaths;
@@ -281,5 +281,16 @@
         }
     }
     return cleanFileList;
+}
++(void)saveCurrentPackageName:(NSString*)value
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:value forKey:SELECTED_PACKAGE_KEY];
+    [defaults synchronize];
+}
++(NSString*)getCurrentPackageName
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    return [defaults objectForKey:SELECTED_PACKAGE_KEY];
 }
 @end

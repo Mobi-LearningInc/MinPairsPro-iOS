@@ -27,9 +27,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    MLPackageDownloader* downLoader=[[MLPackageDownloader alloc]init];
-    self.availableArr=[downLoader getDownloadablePackages].packageList;
-    self.downloadedArr=[downLoader getInstalledPackages];
+    self.availableArr=[MLPackageDownloader getDownloadablePackages].packageList;
+    self.downloadedArr=[MLPackageDownloader getInstalledPackages];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -114,20 +113,19 @@
         NSLog(@"Downloading data...");
 #endif
         dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        MLPackageDownloader* packDown = [[MLPackageDownloader alloc]init];
-        MLPackageList* packages=[packDown getDownloadablePackages];
+        MLPackageList* packages=[MLPackageDownloader getDownloadablePackages];
         if(packages)
         {
 #ifdef DEBUG
             NSLog(@"Downloadable packages:%@ \n DetailServlet:%@ \n DetailServletParam:%@", packages.packageList,[packages.detailsServletUrl absoluteString],packages.detailsServletpackageIdParamName);
 #endif
-            MLPackageFileList* fileServletData=[packDown getFileUrlForPackage:packages packageName:packageName];
+            MLPackageFileList* fileServletData=[MLPackageDownloader getFileUrlForPackage:packages packageName:packageName];
             if(fileServletData)
             {
 #ifdef DEBUG
                 NSLog(@"Files for %@ package :\n %@ \n file servlet name:%@ \n file servlet param names : %@,%@",packageName,fileServletData.list,fileServletData.fileServletUrl.absoluteString,fileServletData.fileServletPackageIdParamName,fileServletData.fileServletFileIdParamName);
 #endif
-                [packDown saveFilesToDisk:fileServletData];
+                [MLPackageDownloader saveFilesToDisk:fileServletData];
             }
 #ifdef DEBUG
             NSLog(@"Downloads finished...");
@@ -139,6 +137,7 @@
     else if(indexPath.section == 1)
     {
         packageName=  [self.downloadedArr objectAtIndex:indexPath.row];
+        [MLPackageDownloader saveCurrentPackageName:packageName];
     }
 }
 

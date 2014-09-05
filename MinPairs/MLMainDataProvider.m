@@ -8,6 +8,7 @@
 
 #import "MLMainDataProvider.h"
 #import "MLFileDataProvider.h"
+#import "MLPackageDownloader.h"
 @interface MLMainDataProvider()
 @property id<MLDataProviderBase>provider;
 @end
@@ -17,11 +18,15 @@
     self=[super init];
     if (self)
     {
+    #ifdef DEBUG
+        NSLog(@"Selected package %@",[MLPackageDownloader getCurrentPackageName]);
+    #endif
         
     #ifdef ML_PROVIDER_TYPE_FILE
         self.provider=[[MLFileDataProvider alloc]init];
     #endif
     #ifdef ML_PROVIDER_TYPE_WEB
+        //todo: implement provider interface for MLPackageDownloader
         //NOTE: set self.provider to instance of class that provides resourses from the internet, class must conform to MLDataProviderBase protocol
     #endif
     #ifdef ML_PROVIDER_TYPE_DATABASE

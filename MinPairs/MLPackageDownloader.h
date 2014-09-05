@@ -25,8 +25,12 @@
 #define PACKAGEDETAIL_JSON_KEY_FILE_SERVLET_PARAM_NAME_FILE_ID @"fileLoaderServletFileIdParamName"
 #define PACKAGEDETAIL_JSON_KEY_FILE_SERVLET_PARAM_NAME_RETINA_SUFFIX @"pngImageSuffix"
 
--(MLPackageList*)getDownloadablePackages;
--(MLPackageFileList*)getFileUrlForPackage:(MLPackageList*)list packageName:(NSString*)packageId;
--(void)saveFilesToDisk:(MLPackageFileList*)files;
--(NSArray*)getInstalledPackages;
+#define SELECTED_PACKAGE_KEY @"currently_selected_package"
+
++(MLPackageList*)getDownloadablePackages;
++(MLPackageFileList*)getFileUrlForPackage:(MLPackageList*)list packageName:(NSString*)packageId;
++(void)saveFilesToDisk:(MLPackageFileList*)files;
++(NSArray*)getInstalledPackages;
++(void)saveCurrentPackageName:(NSString*)value;
++(NSString*)getCurrentPackageName;
 @end
