@@ -257,4 +257,29 @@
         return [data writeToFile:filePath atomically:YES];
     }
 }
+-(NSArray*)getInstalledPackages
+{
+    NSFileManager *filemgr;
+    NSArray *dirPaths;
+    NSString *docsDir;
+    NSString *packDir;
+    
+    filemgr =[NSFileManager defaultManager];
+    
+    dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
+                                                   NSUserDomainMask, YES);
+    
+    docsDir = [dirPaths lastObject];
+    packDir = [docsDir stringByAppendingPathComponent:@"Data"];
+    NSArray *filelist;
+    filelist = [filemgr contentsOfDirectoryAtPath:packDir error:NULL];
+    NSMutableArray* cleanFileList= [NSMutableArray array];
+    for(int i =0; i<filelist.count;i++)
+    {
+        if (![[filelist objectAtIndex:i]hasPrefix:@"."]) {
+            [cleanFileList addObject:[filelist objectAtIndex:i]];
+        }
+    }
+    return cleanFileList;
+}
 @end

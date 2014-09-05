@@ -350,6 +350,7 @@
 		E1F4F8AA1964A1440047CCFC /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1F4F8A41964A1440047CCFC /* CoreTelephony.framework */; };
 		E1F4F8AB1964A1440047CCFC /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1F4F8A51964A1440047CCFC /* StoreKit.framework */; };
 		E1F4F8AC1964A1440047CCFC /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1F4F8A61964A1440047CCFC /* SystemConfiguration.framework */; };
+		E1FC074119B95ADE0009107E /* MLPackageTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1FC074019B95ADE0009107E /* MLPackageTableViewController.m */; };
 		EBC4B4421925158900D07F4B /* MLLrsCredentialsDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = EBC4B43D1925158900D07F4B /* MLLrsCredentialsDatabase.m */; };
 		EBC4B4431925158900D07F4B /* MLLsrCredentials.m in Sources */ = {isa = PBXBuildFile; fileRef = EBC4B43F1925158900D07F4B /* MLLsrCredentials.m */; };
 		EBC4B4441925158900D07F4B /* MLTinCanConnector.m in Sources */ = {isa = PBXBuildFile; fileRef = EBC4B4411925158900D07F4B /* MLTinCanConnector.m */; };
@@ -955,6 +956,8 @@
 		E1F4F8A41964A1440047CCFC /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		E1F4F8A51964A1440047CCFC /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		E1F4F8A61964A1440047CCFC /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		E1FC073F19B95ADE0009107E /* MLPackageTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLPackageTableViewController.h; sourceTree = "<group>"; };
+		E1FC074019B95ADE0009107E /* MLPackageTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLPackageTableViewController.m; sourceTree = "<group>"; };
 		EBC4B43C1925158900D07F4B /* MLLrsCredentialsDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLLrsCredentialsDatabase.h; sourceTree = "<group>"; };
 		EBC4B43D1925158900D07F4B /* MLLrsCredentialsDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLLrsCredentialsDatabase.m; sourceTree = "<group>"; };
 		EBC4B43E1925158900D07F4B /* MLLsrCredentials.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLLsrCredentials.h; sourceTree = "<group>"; };
@@ -1886,6 +1889,7 @@
 		E109704819095F93000C7E11 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				E1FC073E19B95AA80009107E /* PackageListController */,
 				E13EFF561920FEA0005C407F /* ShareController */,
 				CA0343DE191E195000CAF871 /* InstructionsController */,
 				CA0343DD191E194900CAF871 /* HelpController */,
@@ -1956,6 +1960,15 @@
 				E12E40CE190C878D0002D88C /* MLSettingDatabase.m */,
 			);
 			name = DataBase;
+			sourceTree = "<group>";
+		};
+		E1FC073E19B95AA80009107E /* PackageListController */ = {
+			isa = PBXGroup;
+			children = (
+				E1FC073F19B95ADE0009107E /* MLPackageTableViewController.h */,
+				E1FC074019B95ADE0009107E /* MLPackageTableViewController.m */,
+			);
+			name = PackageListController;
 			sourceTree = "<group>";
 		};
 		EBC4B4451925159500D07F4B /* TinCan */ = {
@@ -2393,6 +2406,7 @@
 				CA1C023A190BC38B003C5F90 /* MLSynchronousFilter.m in Sources */,
 				CA13C50B1989EEFC00521FFA /* OAToken.m in Sources */,
 				CAAB4DFC1932CA01004CC2E3 /* MLStatsTabBarViewController.m in Sources */,
+				E1FC074119B95ADE0009107E /* MLPackageTableViewController.m in Sources */,
 				CA13C5011989EEFC00521FFA /* OACall.m in Sources */,
 				EBC4B4431925158900D07F4B /* MLLsrCredentials.m in Sources */,
 				E13EFF591920FEDA005C407F /* MLShareViewController.m in Sources */,

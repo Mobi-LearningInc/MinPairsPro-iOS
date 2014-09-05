@@ -85,6 +85,7 @@
     //todo:check if default package is installed
     
     //testing downloader classes and server
+    /*
     #ifdef DEBUG
         NSLog(@"Downloading data...");
     #endif
@@ -109,6 +110,7 @@
 #ifdef DEBUG
     NSLog(@"main viewDidLoad finished...");
 #endif
+     */
 }
 
 - (void)didReceiveMemoryWarning

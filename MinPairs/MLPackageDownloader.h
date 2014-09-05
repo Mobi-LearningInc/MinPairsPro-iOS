@@ -28,4 +28,5 @@
 -(MLPackageList*)getDownloadablePackages;
 -(MLPackageFileList*)getFileUrlForPackage:(MLPackageList*)list packageName:(NSString*)packageId;
 -(void)saveFilesToDisk:(MLPackageFileList*)files;
+-(NSArray*)getInstalledPackages;
 @end
