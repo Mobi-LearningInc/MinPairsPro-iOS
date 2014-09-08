@@ -59,15 +59,11 @@
                 {
                     [MLPackageDownloader saveFilesToDisk:fileList withCompletion:^(BOOL success) {
                         [self performSelectorOnMainThread:@selector(setTitle:) withObject:@"Finished." waitUntilDone:NO];
-                        //[self setTitle:@"Finished."];
-                        //[self setSubTitle:@"You are done."];
                         [self performSelectorOnMainThread:@selector(setSubTitle:) withObject:@"Done." waitUntilDone:NO];
                         [self performSelectorOnMainThread:@selector(setPercent:) withObject:[NSNumber numberWithFloat:1.0f] waitUntilDone:NO];
                     } withUpdate:^(float percent, NSString *fileName, BOOL status) {
                         [self performSelectorOnMainThread:@selector(setSubTitle:) withObject:[NSString stringWithFormat:@"Download:%@ Status:%@",fileName,status?@"OK":@"FAILED"] waitUntilDone:NO];
                         [self performSelectorOnMainThread:@selector(setPercent:) withObject:[NSNumber numberWithFloat:percent] waitUntilDone:NO];
-                        //[self setSubTitle:[NSString stringWithFormat:@"Download:%@ Status:%@",fileName,status?@"OK":@"FAILED"]];
-                        //[self setPercent:percent];
                         
                     }];
                     #ifdef DEBUG
