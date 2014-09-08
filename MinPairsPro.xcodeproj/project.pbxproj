@@ -336,6 +336,7 @@
 		E16DBADA19B6AF4C00737718 /* MLPackageFileList.m in Sources */ = {isa = PBXBuildFile; fileRef = E16DBAD919B6AF4C00737718 /* MLPackageFileList.m */; };
 		E1907499198311B000F9AA97 /* MLFlipButton.m in Sources */ = {isa = PBXBuildFile; fileRef = E1907498198311B000F9AA97 /* MLFlipButton.m */; };
 		E19B1B35193170DF0039F58B /* MLDetailsItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E19B1B34193170DF0039F58B /* MLDetailsItem.m */; };
+		E1A97A2F19BE2B7B00D31CD6 /* MLPackageDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A97A2E19BE2B7B00D31CD6 /* MLPackageDownloadViewController.m */; };
 		E1C2489F190AC30300F9E8BF /* MLMainDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C2489E190AC30300F9E8BF /* MLMainDataProvider.m */; };
 		E1C248A4190AEDC300F9E8BF /* MLDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C248A3190AEDC300F9E8BF /* MLDatabase.m */; };
 		E1C248A6190AEEC200F9E8BF /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E1C248A5190AEEC200F9E8BF /* libsqlite3.dylib */; };
@@ -933,6 +934,8 @@
 		E190749A1983125F00F9AA97 /* MLFlipButtonOnFlipProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MLFlipButtonOnFlipProtocol.h; sourceTree = "<group>"; };
 		E19B1B33193170DF0039F58B /* MLDetailsItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLDetailsItem.h; sourceTree = "<group>"; };
 		E19B1B34193170DF0039F58B /* MLDetailsItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLDetailsItem.m; sourceTree = "<group>"; };
+		E1A97A2D19BE2B7B00D31CD6 /* MLPackageDownloadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLPackageDownloadViewController.h; sourceTree = "<group>"; };
+		E1A97A2E19BE2B7B00D31CD6 /* MLPackageDownloadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLPackageDownloadViewController.m; sourceTree = "<group>"; };
 		E1C2489C190AB8AE00F9E8BF /* MLDataProviderEventListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MLDataProviderEventListener.h; sourceTree = "<group>"; };
 		E1C2489D190AC30300F9E8BF /* MLMainDataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLMainDataProvider.h; sourceTree = "<group>"; };
 		E1C2489E190AC30300F9E8BF /* MLMainDataProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLMainDataProvider.m; sourceTree = "<group>"; };
@@ -1889,6 +1892,7 @@
 		E109704819095F93000C7E11 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				E1A97A2C19BE2B4800D31CD6 /* PackageDownloadController */,
 				E1FC073E19B95AA80009107E /* PackageListController */,
 				E13EFF561920FEA0005C407F /* ShareController */,
 				CA0343DE191E195000CAF871 /* InstructionsController */,
@@ -1945,6 +1949,15 @@
 				E16B4BE719316E9E000C704D /* MLDetailTableViewController.m */,
 			);
 			name = PQDetailsControllers;
+			sourceTree = "<group>";
+		};
+		E1A97A2C19BE2B4800D31CD6 /* PackageDownloadController */ = {
+			isa = PBXGroup;
+			children = (
+				E1A97A2D19BE2B7B00D31CD6 /* MLPackageDownloadViewController.h */,
+				E1A97A2E19BE2B7B00D31CD6 /* MLPackageDownloadViewController.m */,
+			);
+			name = PackageDownloadController;
 			sourceTree = "<group>";
 		};
 		E1C248A1190AED9200F9E8BF /* DataBase */ = {
@@ -2420,6 +2433,7 @@
 				E1E19F3A1909E54700208ECD /* MLSoundChartCollectionViewCell.m in Sources */,
 				CA13C5061989EEFC00521FFA /* OAPlaintextSignatureProvider.m in Sources */,
 				CA13C51A198A010700521FFA /* MLOAuthTincanViewController.m in Sources */,
+				E1A97A2F19BE2B7B00D31CD6 /* MLPackageDownloadViewController.m in Sources */,
 				CA13C5161989F20700521FFA /* MLXAPIOAuth.m in Sources */,
 				E12E40CF190C878D0002D88C /* MLSettingDatabase.m in Sources */,
 				CA13C5051989EEFC00521FFA /* OAMutableURLRequest.m in Sources */,

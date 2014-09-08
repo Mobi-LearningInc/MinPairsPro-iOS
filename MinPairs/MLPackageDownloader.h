@@ -27,10 +27,20 @@
 
 #define SELECTED_PACKAGE_KEY @"currently_selected_package"
 
+
 +(MLPackageList*)getDownloadablePackages;
 +(MLPackageFileList*)getFileUrlForPackage:(MLPackageList*)list packageName:(NSString*)packageId;
-+(void)saveFilesToDisk:(MLPackageFileList*)files;
++(BOOL)saveFilesToDisk:(MLPackageFileList*)files;
+
 +(NSArray*)getInstalledPackages;
 +(void)saveCurrentPackageName:(NSString*)value;
 +(NSString*)getCurrentPackageName;
+
+//async
+
++(void)getDownloadablePackagesWithCompletion:(void(^)(BOOL success,MLPackageList* packageList))completionBlock;
++(void)getFileUrlForPackage:(MLPackageList*)list packageName:(NSString*)packageId withCompletion:(void(^)(BOOL success,MLPackageFileList* fileList))completionBlock;
++(void)saveFilesToDisk:(MLPackageFileList *)files withCompletion:(void(^)(BOOL success))completionBlock;
++(void)saveFilesToDisk:(MLPackageFileList *)files withCompletion:(void(^)(BOOL success))completionBlock withUpdate:(void(^)(float percent, NSString* fileName, BOOL status))updateBlock;
+
 @end

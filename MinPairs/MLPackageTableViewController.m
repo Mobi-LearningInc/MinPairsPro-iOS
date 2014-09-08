@@ -8,6 +8,7 @@
 
 #import "MLPackageTableViewController.h"
 #import "MLPackageDownloader.h"
+#import "MLPackageDownloadViewController.h"
 @interface MLPackageTableViewController ()
 @property(strong, nonatomic) NSArray* availableArr;
 @property(strong,nonatomic)NSArray* downloadedArr;
@@ -27,7 +28,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.availableArr=[MLPackageDownloader getDownloadablePackages].packageList;
+    //self.availableArr=[MLPackageDownloader getDownloadablePackages].packageList;
+    [MLPackageDownloader getDownloadablePackagesWithCompletion:^(BOOL success, MLPackageList* packageList){
+        self.availableArr=packageList.packageList;
+        [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+    }];
     self.downloadedArr=[MLPackageDownloader getInstalledPackages];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -78,26 +83,59 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return ((section == 0) ? self.availableArr.count : self.downloadedArr.count);
+    if(section==0)
+    {
+        if(self.availableArr)
+        {
+            return self.availableArr.count;
+        }
+        else
+        {
+            return 1;
+        }
+    }
+    else
+    {
+        return self.downloadedArr.count;
+    }
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString* cellIdentifier = @"PackageNameCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier] ;
-    }
-    NSString* titleStr;
+    
     if(indexPath.section == 0)
     {
-        titleStr=  [self.availableArr objectAtIndex:indexPath.row];
-        cell.textLabel.text =titleStr;
+        UITableViewCell *cell ;
+        if(self.availableArr)
+        {
+           cell = [tableView dequeueReusableCellWithIdentifier:@"PackageNameCell" forIndexPath:indexPath];
+            
+            if (cell == nil) {
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"PackageNameCell"] ;
+            }
+        cell.textLabel.text=  [self.availableArr objectAtIndex:indexPath.row];
+        }
+        else
+        {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"LoadingCell" forIndexPath:indexPath];
+            if (cell == nil) {
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"LoadingCell"] ;
+            }
+        }
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        return cell;
     }
     else if(indexPath.section == 1)
     {
+        NSString* titleStr;
+        NSString* cellIdentifier = @"PackageNameCell";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+        
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier] ;
+        }
         titleStr=  [self.downloadedArr objectAtIndex:indexPath.row];
         cell.textLabel.text =titleStr;
         if([titleStr isEqual:[MLPackageDownloader getCurrentPackageName]])
@@ -109,8 +147,9 @@
         {
             cell.accessoryType = UITableViewCellAccessoryNone;
         }
+        return cell;
     }
-    return cell;
+    return nil;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -118,30 +157,10 @@
     if(indexPath.section == 0)
     {
         packageName=  [self.availableArr objectAtIndex:indexPath.row];
-#ifdef DEBUG
-        NSLog(@"Downloading data...");
-#endif
-        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        MLPackageList* packages=[MLPackageDownloader getDownloadablePackages];
-        if(packages)
-        {
-#ifdef DEBUG
-            NSLog(@"Downloadable packages:%@ \n DetailServlet:%@ \n DetailServletParam:%@", packages.packageList,[packages.detailsServletUrl absoluteString],packages.detailsServletpackageIdParamName);
-#endif
-            MLPackageFileList* fileServletData=[MLPackageDownloader getFileUrlForPackage:packages packageName:packageName];
-            if(fileServletData)
-            {
-#ifdef DEBUG
-                NSLog(@"Files for %@ package :\n %@ \n file servlet name:%@ \n file servlet param names : %@,%@",packageName,fileServletData.list,fileServletData.fileServletUrl.absoluteString,fileServletData.fileServletPackageIdParamName,fileServletData.fileServletFileIdParamName);
-#endif
-                [MLPackageDownloader saveFilesToDisk:fileServletData];
-            }
-#ifdef DEBUG
-            NSLog(@"Downloads finished...");
-#endif
-        }
-        });
         
+        MLPackageDownloadViewController*pdvc=[self.storyboard instantiateViewControllerWithIdentifier:@"DownloadViewController"];
+        pdvc.packageToDownload=packageName;
+        [self presentViewController:pdvc animated:YES completion:nil];
     }
     else if(indexPath.section == 1)
     {

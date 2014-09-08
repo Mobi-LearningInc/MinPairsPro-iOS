@@ -87,8 +87,9 @@
     }
     
 }
-+(void)saveFilesToDisk:(MLPackageFileList*)files
++(BOOL)saveFilesToDisk:(MLPackageFileList*)files
 {
+    bool success = true;
     for(int i =0; i < files.list.count; i++)
     {
         
@@ -116,6 +117,7 @@
                     #ifdef DEBUG
                         NSLog(@"Could not create Images folder");
                     #endif
+                    success=false;
                 }
             }
             else if([[files.list objectAtIndex:i]hasSuffix:@".mp3"])
@@ -126,6 +128,7 @@
                     #ifdef DEBUG
                         NSLog(@"Could not create Sounds folder");
                     #endif
+                    success=false;
                 }
             }
             else if([[files.list objectAtIndex:i]hasSuffix:@".dat"])
@@ -139,6 +142,7 @@
                         #ifdef DEBUG
                             NSLog(@"Could not create [%@] folder",files.fileServletPackageIdValue);
                         #endif
+                        success=false;
                     }
                 }
                 else
@@ -146,6 +150,7 @@
                     #ifdef DEBUG
                         NSLog(@"Could not create Data folder");
                     #endif
+                    success=false;
                 }
             }
             else
@@ -153,6 +158,7 @@
                 #ifdef DEBUG
                     NSLog(@"Unknown file format.");
                 #endif
+                success=false;
             }
             if(folderPath)
             {
@@ -169,6 +175,7 @@
                 #ifdef DEBUG
                     NSLog(@"Could not save %@",filePath);
                 #endif
+                success=false;
             }
             }
         }
@@ -177,9 +184,11 @@
             #ifdef DEBUG
                 NSLog(@">>>>>>>Could not load file from %@",fileAddress);
             #endif
+            success=false;
         }
         
     }
+    return success;
 }
 +(NSString*)createDirectory:(NSString*)folderName
 {
@@ -292,5 +301,142 @@
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     return [defaults objectForKey:SELECTED_PACKAGE_KEY];
+}
++(void)getDownloadablePackagesWithCompletion:(void(^)(BOOL success,MLPackageList* packageList))completionBlock
+{
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        MLPackageList* data=[MLPackageDownloader getDownloadablePackages];
+        completionBlock(data?true:false,data);
+    });
+}
++(void)getFileUrlForPackage:(MLPackageList*)list packageName:(NSString*)packageId withCompletion:(void(^)(BOOL success,MLPackageFileList* fileList))completionBlock
+{
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        MLPackageFileList* data =[MLPackageDownloader getFileUrlForPackage:list packageName:packageId];
+        completionBlock(data?true:false,data);
+    });
+}
++(void)saveFilesToDisk:(MLPackageFileList *)files withCompletion:(void(^)(BOOL success))completionBlock
+{
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+            BOOL status=[MLPackageDownloader saveFilesToDisk:files];
+            completionBlock(status);
+
+    });
+}
++(void)saveFilesToDisk:(MLPackageFileList *)files withCompletion:(void(^)(BOOL success))completionBlock withUpdate:(void(^)(float percent, NSString* fileName, BOOL status))updateBlock
+{
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    BOOL status=[MLPackageDownloader saveFilesToDisk:files withUpdate:updateBlock];
+        completionBlock(status);
+    });
+}
++(BOOL)saveFilesToDisk:(MLPackageFileList*)files withUpdate:(void(^)(float percent, NSString* fileName, BOOL status))updateBlock
+{
+    bool success = true;
+    for(int i =0; i < files.list.count; i++)
+    {
+        
+        NSString* packageIdQuery = [NSString stringWithFormat:@"%@=%@",files.fileServletPackageIdParamName,files.fileServletPackageIdValue];
+        NSString* fileIdQuery=[NSString stringWithFormat:@"%@=%@",files.fileServletFileIdParamName,[files.list objectAtIndex:i] ];
+        NSString* queryStr = [NSString stringWithFormat:@"?%@&%@",packageIdQuery,fileIdQuery];
+        NSURL* fileAddress =[NSURL URLWithString:[files.fileServletUrl.absoluteString stringByAppendingString:queryStr]];
+        
+#ifdef DEBUG
+        NSLog(@"Loading file from: %@",fileAddress);
+#endif
+        NSData* data = [NSData dataWithContentsOfURL:fileAddress];
+        
+        if(data)
+        {
+#ifdef DEBUG
+            NSLog(@"File size:%i",data.length);
+#endif
+            //todo: store to disk
+            NSString* folderPath;
+            if([[files.list objectAtIndex:i]hasSuffix:@".png"])
+            {
+                folderPath= [self createDirectory:@"Images"];
+                if(!folderPath)
+                {
+#ifdef DEBUG
+                    NSLog(@"Could not create Images folder");
+#endif
+                    success=false;
+                }
+            }
+            else if([[files.list objectAtIndex:i]hasSuffix:@".mp3"])
+            {
+                folderPath = [self createDirectory:@"Sounds"];
+                if(!folderPath)
+                {
+#ifdef DEBUG
+                    NSLog(@"Could not create Sounds folder");
+#endif
+                    success=false;
+                }
+            }
+            else if([[files.list objectAtIndex:i]hasSuffix:@".dat"])
+            {
+                NSString* outerPath = [self createDirectory:@"Data"];
+                if(outerPath)
+                {
+                    folderPath=[self createDirectoryWithPath:outerPath folderName:files.fileServletPackageIdValue];
+                    if(!folderPath)
+                    {
+#ifdef DEBUG
+                        NSLog(@"Could not create [%@] folder",files.fileServletPackageIdValue);
+#endif
+                        success=false;
+                    }
+                }
+                else
+                {
+#ifdef DEBUG
+                    NSLog(@"Could not create Data folder");
+#endif
+                    success=false;
+                }
+            }
+            else
+            {
+#ifdef DEBUG
+                NSLog(@"Unknown file format.");
+#endif
+                success=false;
+            }
+            if(folderPath)
+            {
+                //saving to created folder
+                NSString* filePath= [folderPath stringByAppendingPathComponent:[files.list objectAtIndex:i]];
+                if([self writeDataToDisk:data path:filePath])
+                {
+#ifdef DEBUG
+                    NSLog(@"Saved file to %@",filePath);
+#endif
+                }
+                else
+                {
+#ifdef DEBUG
+                    NSLog(@"Could not save %@",filePath);
+#endif
+                    success=false;
+                }
+            }
+        }
+        else
+        {
+#ifdef DEBUG
+            NSLog(@">>>>>>>Could not load file from %@",fileAddress);
+#endif
+            success=false;
+        }
+        if(updateBlock)
+        {
+        updateBlock((float)i/(float)files.list.count,fileIdQuery,data?true:false);
+        }
+    }
+    return success;
 }
 @end
