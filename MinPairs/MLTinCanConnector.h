@@ -21,7 +21,13 @@
 @interface MLTinCanConnector : NSObject
 
 -(instancetype)initWithCredentials:(MLLsrCredentials *)credentials;
--(void)saveSampleActivity;
--(void)saveQuizResults:(NSNumber*)percentage points:(NSNumber*)points max:(NSNumber*)maxPoints time:(NSString*)time;
 
+-(void)saveSampleActivity;
+-(void)saveLaunch;
+-(void)saveTerminate;
+-(void)saveRegistered;
+-(void)saveLearnExperience;
+-(void)saveSoundChartExperience;
+
+-(void)saveQuizResults:(NSNumber*)percentage points:(NSNumber*)points max:(NSNumber*)maxPoints time:(NSString*)time;
 @end

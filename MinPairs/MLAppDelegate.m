@@ -8,8 +8,36 @@
 
 #import "MLAppDelegate.h"
 #import "MLTheme.h"
+#import "MLTinCanConnector.h"
+#import "MLLrsCredentialsDatabase.h"
+
+@interface MLAppDelegate()
+@property (nonatomic, strong) MLTinCanConnector* tincan;
+@property (nonatomic, strong) MLLrsCredentialsDatabase* lrsDatabase;
+@end
 
 @implementation MLAppDelegate
+
+- (MLLrsCredentialsDatabase *)lrsDatabase{
+    if(!_lrsDatabase){
+        
+        ///todo
+        _lrsDatabase = [[MLLrsCredentialsDatabase alloc]initLmsCredentialsDatabase];
+        MLLsrCredentials *cred = [_lrsDatabase getLmsCredentials];
+        if(!cred || [cred.name isEqualToString:@""])
+            [_lrsDatabase saveDefaultCredentials];
+    }
+    
+    return _lrsDatabase;
+}
+- (MLTinCanConnector *)tincan{
+    
+    if (!_tincan) {
+        _tincan = [[MLTinCanConnector alloc] initWithCredentials:[self.lrsDatabase getLmsCredentials]];
+    }
+    return _tincan;
+}
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -19,6 +47,7 @@
     [MLTheme setButtonRadius: 10.0f];
     [MLTheme setButtonBackground:21.0f/0xFF withGreen:142.0f/0xFF withBlue:141.0f/0xFF withAlpha:1.0f];
     [MLTheme setTheme: _window.rootViewController];
+    [self.tincan saveLaunch];
     return YES;
 }
 							
@@ -32,11 +61,13 @@
 {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        [self.tincan saveTerminate];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+        [self.tincan saveLaunch];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
@@ -47,6 +78,7 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+
 }
 
 @end

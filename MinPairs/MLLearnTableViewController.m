@@ -13,15 +13,38 @@
 #import "MLSettingDatabase.h"
 #import "MLTheme.h"
 #import "MLFilterViewController.h"
-
+#import "MLTinCanConnector.h"
+#import "MLLrsCredentialsDatabase.h"
 @interface MLLearnTableViewController() <UISearchDisplayDelegate, UISearchBarDelegate>
 @property NSArray* learnPairsArr;
 @property NSArray* learnCatArr;
 @property (strong, nonatomic) NSArray* searchResults;
 //@property MLPair* filterCategoryPair;
+@property (nonatomic, strong) MLTinCanConnector* tincan;
+@property (nonatomic, strong) MLLrsCredentialsDatabase* lrsDatabase;
 @end
 
 @implementation MLLearnTableViewController
+
+- (MLLrsCredentialsDatabase *)lrsDatabase{
+    if(!_lrsDatabase){
+        
+        ///todo
+        _lrsDatabase = [[MLLrsCredentialsDatabase alloc]initLmsCredentialsDatabase];
+        MLLsrCredentials *cred = [_lrsDatabase getLmsCredentials];
+        if(!cred || [cred.name isEqualToString:@""])
+            [_lrsDatabase saveDefaultCredentials];
+    }
+    
+    return _lrsDatabase;
+}
+- (MLTinCanConnector *)tincan{
+    
+    if (!_tincan) {
+        _tincan = [[MLTinCanConnector alloc] initWithCredentials:[self.lrsDatabase getLmsCredentials]];
+    }
+    return _tincan;
+}
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -54,7 +77,7 @@
     [MLTheme setTheme: self];
     [super viewDidLoad];
     [self loadData];
-    
+    [self.tincan saveLearnExperience];
 }
 -(void)loadData
 {

@@ -16,6 +16,31 @@
 
 @implementation MLTinCanConnector
 
+//MP ACTIVITIES FOR XAPI
+NSString* const BASE = @"http://mobilearninginc.com/minimal-pairs/iOS/v1.0";
+NSString* const APPLICATION = @"";
+NSString* const QUIZ = @"/quiz";
+NSString* const PRACTICE = @"hpractice";
+NSString* const LEARN = @"/learn";
+NSString* const SOUND_CHART = @"/soundChart";
+
+//ACTIVITIES
+NSString* const TC_COURSE = @"http://adlnet.gov/expapi/activities/course";
+NSString* const TC_INTERACTION = @"http://adlnet.gov/expapi/activities/interaction";
+NSString* const TC_ASSESSMENT = @"http://adlnet.gov/expapi/activities/assessment";
+
+//VERBS
+NSString* const TC_LAUNCHED = @"http://adlnet.gov/expapi/verbs/launched";
+NSString* const TC_LAUNCHED_DISPLAY = @"launched";
+NSString* const TC_TERMINATED = @"http://adlnet.gov/expapi/verbs/terminated";
+NSString* const TC_TERMINATED_DISPLAY = @"terminated";
+NSString* const TC_REGISTERED = @"http://adlnet.gov/expapi/verbs/registered";
+NSString* const TC_REGISTERED_DISPLAY = @"registered";
+NSString* const TC_COMPLETED = @"http://adlnet.gov/expapi/verbs/completed";
+NSString* const TC_COMPLETED_DISPLAY = @"completed";
+NSString* const TC_EXPERIENCED = @"http://adlnet.gov/expapi/verbs/experienced";
+NSString* const TC_EXPERIENCED_DISPLAY = @"experienced";
+
 -(instancetype)initWithCredentials:(MLLsrCredentials *)credentials{
 
     self=[super init];
@@ -58,9 +83,9 @@
 -(void)saveSampleActivity{
 
     NSMutableDictionary *statementOptions = [[NSMutableDictionary alloc] init];
-    [statementOptions setValue:@"http://mobilearninginc.com/minpairs" forKey:@"activityId"];
-    [statementOptions setValue:[[TCVerb alloc] initWithId:@"http://adlnet.gov/expapi/verbs/launched" withVerbDisplay:[[TCLocalizedValues alloc] initWithLanguageCode:@"en-US" withValue:@"launched"]] forKey:@"verb"];
-    [statementOptions setValue:@"http://adlnet.gov/expapi/activities/course/" forKey:@"activityType"];
+    [statementOptions setValue:[BASE stringByAppendingString:APPLICATION] forKey:@"activityId"];
+    [statementOptions setValue:[[TCVerb alloc] initWithId:TC_LAUNCHED withVerbDisplay:[[TCLocalizedValues alloc] initWithLanguageCode:@"en-US" withValue:TC_LAUNCHED_DISPLAY]] forKey:@"verb"];
+    [statementOptions setValue:TC_COURSE forKey:@"activityType"];
     
     TCStatement *statementToSend = [self createTestStatementWithOptions:statementOptions];
     #ifdef DEBUG
@@ -158,6 +183,232 @@
     return statementToSend;
 }
 
+/*****************************************************************************/
 
+-(void)saveLearnExperience{
+    
+    NSMutableDictionary *statementOptions = [[NSMutableDictionary alloc] init];
+    [statementOptions setValue:[BASE stringByAppendingString:LEARN] forKey:@"activityId"];
+    [statementOptions setValue:[[TCVerb alloc] initWithId:TC_EXPERIENCED withVerbDisplay:[[TCLocalizedValues alloc] initWithLanguageCode:@"en-US" withValue:TC_EXPERIENCED_DISPLAY]] forKey:@"verb"];
+    [statementOptions setValue:TC_INTERACTION forKey:@"activityType"];
+    
+    TCStatement *statementToSend = [self createLearnStatementWithOptions:statementOptions];
+#ifdef DEBUG
+    NSLog(@"%@\n", statementToSend.JSONString);
+#endif
+    [self.tincan sendStatement:statementToSend withCompletionBlock:^(){
+    }withErrorBlock:^(TCError *error){
+#ifdef DEBUG
+        NSLog(@"ERROR: %@", error.localizedDescription);
+#endif
+    }];
+}
+
+- (TCStatement *)createLearnStatementWithOptions:(NSDictionary *)options
+{
+    TCAgent *actor = [[TCAgent alloc] initWithName:self.credentials.name  withMbox:[NSString stringWithFormat:@"mailto:%@", self.credentials.email] withAccount:nil];
+    
+    
+    TCActivityDefinition *actDef = [[TCActivityDefinition alloc] initWithName:[[TCLocalizedValues alloc] initWithLanguageCode:@"en-US" withValue:[BASE stringByAppendingString:LEARN]]
+                                                              withDescription:[[TCLocalizedValues alloc] initWithLanguageCode:@"en-US" withValue:@"Description for test statement"]
+                                                                     withType:[options valueForKey:@"activityType"]
+                                                               withExtensions:nil
+                                                          withInteractionType:nil
+                                                  withCorrectResponsesPattern:nil
+                                                                  withChoices:nil
+                                                                    withScale:nil
+                                                                   withTarget:nil
+                                                                    withSteps:nil];
+    
+    TCActivity *activity = [[TCActivity alloc] initWithId:[options valueForKey:@"activityId"] withActivityDefinition:actDef];
+    
+    TCVerb *verb = [options valueForKey:@"verb"];
+    
+    TCStatement *statementToSend = [[TCStatement alloc] initWithId:[TCUtil GetUUID] withActor:actor withTarget:activity withVerb:verb withResult:nil withContext:nil];
+    
+    return statementToSend;
+}
+
+/*****************************************************************************/
+-(void)saveSoundChartExperience{
+    
+    NSMutableDictionary *statementOptions = [[NSMutableDictionary alloc] init];
+    [statementOptions setValue:[BASE stringByAppendingString:SOUND_CHART] forKey:@"activityId"];
+    [statementOptions setValue:[[TCVerb alloc] initWithId:TC_EXPERIENCED withVerbDisplay:[[TCLocalizedValues alloc] initWithLanguageCode:@"en-US" withValue:TC_EXPERIENCED_DISPLAY]] forKey:@"verb"];
+    [statementOptions setValue:TC_INTERACTION forKey:@"activityType"];
+    
+    TCStatement *statementToSend = [self createSoundChartStatementWithOptions:statementOptions];
+#ifdef DEBUG
+    NSLog(@"%@\n", statementToSend.JSONString);
+#endif
+    [self.tincan sendStatement:statementToSend withCompletionBlock:^(){
+    }withErrorBlock:^(TCError *error){
+#ifdef DEBUG
+        NSLog(@"ERROR: %@", error.localizedDescription);
+#endif
+    }];
+}
+
+- (TCStatement *)createSoundChartStatementWithOptions:(NSDictionary *)options
+{
+    TCAgent *actor = [[TCAgent alloc] initWithName:self.credentials.name  withMbox:[NSString stringWithFormat:@"mailto:%@", self.credentials.email] withAccount:nil];
+    
+    
+    TCActivityDefinition *actDef = [[TCActivityDefinition alloc] initWithName:[[TCLocalizedValues alloc] initWithLanguageCode:@"en-US" withValue:[BASE stringByAppendingString:SOUND_CHART]]
+                                                              withDescription:[[TCLocalizedValues alloc] initWithLanguageCode:@"en-US" withValue:@"Description for test statement"]
+                                                                     withType:[options valueForKey:@"activityType"]
+                                                               withExtensions:nil
+                                                          withInteractionType:nil
+                                                  withCorrectResponsesPattern:nil
+                                                                  withChoices:nil
+                                                                    withScale:nil
+                                                                   withTarget:nil
+                                                                    withSteps:nil];
+    
+    TCActivity *activity = [[TCActivity alloc] initWithId:[options valueForKey:@"activityId"] withActivityDefinition:actDef];
+    
+    TCVerb *verb = [options valueForKey:@"verb"];
+    
+    TCStatement *statementToSend = [[TCStatement alloc] initWithId:[TCUtil GetUUID] withActor:actor withTarget:activity withVerb:verb withResult:nil withContext:nil];
+    
+    return statementToSend;
+}
+/*****************************************************************************/
+
+-(void)saveTerminate{
+    
+    NSMutableDictionary *statementOptions = [[NSMutableDictionary alloc] init];
+    [statementOptions setValue:BASE forKey:@"activityId"];
+    [statementOptions setValue:[[TCVerb alloc] initWithId:TC_TERMINATED withVerbDisplay:[[TCLocalizedValues alloc] initWithLanguageCode:@"en-US" withValue:TC_TERMINATED_DISPLAY]] forKey:@"verb"];
+    [statementOptions setValue:TC_COURSE forKey:@"activityType"];
+    
+    TCStatement *statementToSend = [self createTerminatStatementWithOptions:statementOptions];
+#ifdef DEBUG
+    NSLog(@"%@\n", statementToSend.JSONString);
+#endif
+    [self.tincan sendStatement:statementToSend withCompletionBlock:^(){
+    }withErrorBlock:^(TCError *error){
+#ifdef DEBUG
+        NSLog(@"ERROR: %@", error.localizedDescription);
+#endif
+    }];
+}
+
+- (TCStatement *)createTerminatStatementWithOptions:(NSDictionary *)options
+{
+    TCAgent *actor = [[TCAgent alloc] initWithName:self.credentials.name  withMbox:[NSString stringWithFormat:@"mailto:%@", self.credentials.email] withAccount:nil];
+    
+    
+    TCActivityDefinition *actDef = [[TCActivityDefinition alloc] initWithName:[[TCLocalizedValues alloc] initWithLanguageCode:@"en-US" withValue:[BASE stringByAppendingString:APPLICATION]]
+                                                              withDescription:[[TCLocalizedValues alloc] initWithLanguageCode:@"en-US" withValue:@"Description for test statement"]
+                                                                     withType:[options valueForKey:@"activityType"]
+                                                               withExtensions:nil
+                                                          withInteractionType:nil
+                                                  withCorrectResponsesPattern:nil
+                                                                  withChoices:nil
+                                                                    withScale:nil
+                                                                   withTarget:nil
+                                                                    withSteps:nil];
+    
+    TCActivity *activity = [[TCActivity alloc] initWithId:[options valueForKey:@"activityId"] withActivityDefinition:actDef];
+    
+    TCVerb *verb = [options valueForKey:@"verb"];
+    
+    TCStatement *statementToSend = [[TCStatement alloc] initWithId:[TCUtil GetUUID] withActor:actor withTarget:activity withVerb:verb withResult:nil withContext:nil];
+    
+    return statementToSend;
+}
+/*****************************************************************************/
+
+-(void)saveLaunch{
+    
+    NSMutableDictionary *statementOptions = [[NSMutableDictionary alloc] init];
+    [statementOptions setValue:BASE forKey:@"activityId"];
+    [statementOptions setValue:[[TCVerb alloc] initWithId:TC_LAUNCHED withVerbDisplay:[[TCLocalizedValues alloc] initWithLanguageCode:@"en-US" withValue:TC_LAUNCHED_DISPLAY]] forKey:@"verb"];
+    [statementOptions setValue:TC_COURSE forKey:@"activityType"];
+    
+    TCStatement *statementToSend = [self createLaunchStatementWithOptions:statementOptions];
+#ifdef DEBUG
+    NSLog(@"%@\n", statementToSend.JSONString);
+#endif
+    [self.tincan sendStatement:statementToSend withCompletionBlock:^(){
+    }withErrorBlock:^(TCError *error){
+#ifdef DEBUG
+        NSLog(@"ERROR: %@", error.localizedDescription);
+#endif
+    }];
+}
+
+- (TCStatement *)createLaunchStatementWithOptions:(NSDictionary *)options
+{
+    TCAgent *actor = [[TCAgent alloc] initWithName:self.credentials.name  withMbox:[NSString stringWithFormat:@"mailto:%@", self.credentials.email] withAccount:nil];
+    
+    
+    TCActivityDefinition *actDef = [[TCActivityDefinition alloc] initWithName:[[TCLocalizedValues alloc] initWithLanguageCode:@"en-US" withValue:[BASE stringByAppendingString:APPLICATION]]
+                                                              withDescription:[[TCLocalizedValues alloc] initWithLanguageCode:@"en-US" withValue:@"Description for test statement"]
+                                                                     withType:[options valueForKey:@"activityType"]
+                                                               withExtensions:nil
+                                                          withInteractionType:nil
+                                                  withCorrectResponsesPattern:nil
+                                                                  withChoices:nil
+                                                                    withScale:nil
+                                                                   withTarget:nil
+                                                                    withSteps:nil];
+    
+    TCActivity *activity = [[TCActivity alloc] initWithId:[options valueForKey:@"activityId"] withActivityDefinition:actDef];
+    
+    TCVerb *verb = [options valueForKey:@"verb"];
+    
+    TCStatement *statementToSend = [[TCStatement alloc] initWithId:[TCUtil GetUUID] withActor:actor withTarget:activity withVerb:verb withResult:nil withContext:nil];
+    
+    return statementToSend;
+}
+/*****************************************************************************/
+
+
+-(void)saveRegistered{
+    
+    NSMutableDictionary *statementOptions = [[NSMutableDictionary alloc] init];
+    [statementOptions setValue:BASE forKey:@"activityId"];
+    [statementOptions setValue:[[TCVerb alloc] initWithId:TC_REGISTERED withVerbDisplay:[[TCLocalizedValues alloc] initWithLanguageCode:@"en-US" withValue:TC_REGISTERED_DISPLAY]] forKey:@"verb"];
+    [statementOptions setValue:TC_COURSE forKey:@"activityType"];
+    
+    TCStatement *statementToSend = [self createRegisteredStatementWithOptions:statementOptions];
+#ifdef DEBUG
+    NSLog(@"%@\n", statementToSend.JSONString);
+#endif
+    [self.tincan sendStatement:statementToSend withCompletionBlock:^(){
+    }withErrorBlock:^(TCError *error){
+#ifdef DEBUG
+        NSLog(@"ERROR: %@", error.localizedDescription);
+#endif
+    }];
+}
+
+- (TCStatement *)createRegisteredStatementWithOptions:(NSDictionary *)options
+{
+    TCAgent *actor = [[TCAgent alloc] initWithName:self.credentials.name  withMbox:[NSString stringWithFormat:@"mailto:%@", self.credentials.email] withAccount:nil];
+    
+    
+    TCActivityDefinition *actDef = [[TCActivityDefinition alloc] initWithName:[[TCLocalizedValues alloc] initWithLanguageCode:@"en-US" withValue:[BASE stringByAppendingString:APPLICATION]]
+                                                              withDescription:[[TCLocalizedValues alloc] initWithLanguageCode:@"en-US" withValue:@"Description for test statement"]
+                                                                     withType:[options valueForKey:@"activityType"]
+                                                               withExtensions:nil
+                                                          withInteractionType:nil
+                                                  withCorrectResponsesPattern:nil
+                                                                  withChoices:nil
+                                                                    withScale:nil
+                                                                   withTarget:nil
+                                                                    withSteps:nil];
+    
+    TCActivity *activity = [[TCActivity alloc] initWithId:[options valueForKey:@"activityId"] withActivityDefinition:actDef];
+    
+    TCVerb *verb = [options valueForKey:@"verb"];
+    
+    TCStatement *statementToSend = [[TCStatement alloc] initWithId:[TCUtil GetUUID] withActor:actor withTarget:activity withVerb:verb withResult:nil withContext:nil];
+    
+    return statementToSend;
+}
+/*****************************************************************************/
 
 @end

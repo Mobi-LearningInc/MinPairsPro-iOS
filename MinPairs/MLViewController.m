@@ -16,9 +16,6 @@
 #import "MLTinCanConnector.h"
 #import "MLLsrCredentials.h"
 #import "MLLrsCredentialsDatabase.h"
-#import "MLPackageDownloader.h"
-#import "MLPackageList.h"
-#import "MLPackageFileList.h"
 
 @interface MLViewController ()
 @property (nonatomic, strong) MLLrsCredentialsDatabase* lrsDatabase;
@@ -80,10 +77,8 @@
     {
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"TinCanSwitch"];
         [[NSUserDefaults standardUserDefaults] synchronize];
-        [self.tincan saveSampleActivity];
+        //[self.tincan saveSampleActivity];
     }
-    //todo:check if default package is installed. If not installed then download it, and set default package as selected package.
-    
 }
 
 - (void)didReceiveMemoryWarning

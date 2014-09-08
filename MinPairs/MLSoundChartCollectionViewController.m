@@ -13,14 +13,38 @@
 #import "MLBasicAudioPlayer.h"
 #import "MLPair.h"
 #import "MLTheme.h"
+#import "MLTinCanConnector.h"
+#import "MLLrsCredentialsDatabase.h"
 
 @interface MLSoundChartCollectionViewController ()
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingIndicator;
 @property NSArray* catArr;
 @property (nonatomic, strong) MLBasicAudioPlayer* audioPlayer;
+@property (nonatomic, strong) MLTinCanConnector* tincan;
+@property (nonatomic, strong) MLLrsCredentialsDatabase* lrsDatabase;
 @end
 
 @implementation MLSoundChartCollectionViewController
+
+- (MLLrsCredentialsDatabase *)lrsDatabase{
+    if(!_lrsDatabase){
+        
+        ///todo
+        _lrsDatabase = [[MLLrsCredentialsDatabase alloc]initLmsCredentialsDatabase];
+        MLLsrCredentials *cred = [_lrsDatabase getLmsCredentials];
+        if(!cred || [cred.name isEqualToString:@""])
+            [_lrsDatabase saveDefaultCredentials];
+    }
+    
+    return _lrsDatabase;
+}
+- (MLTinCanConnector *)tincan{
+    
+    if (!_tincan) {
+        _tincan = [[MLTinCanConnector alloc] initWithCredentials:[self.lrsDatabase getLmsCredentials]];
+    }
+    return _tincan;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -59,6 +83,8 @@
     NSArray* catArr=[dataProvider getCategoriesCallListener:self];
     self.catArr =[catArr subarrayWithRange:NSMakeRange(1, catArr.count-1)];//removes the 'All' item
     self.audioPlayer = [[MLBasicAudioPlayer alloc]init];
+    [self.tincan saveSoundChartExperience];
+
 }
 
 - (void)didReceiveMemoryWarning
