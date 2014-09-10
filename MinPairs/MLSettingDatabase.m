@@ -85,6 +85,13 @@
     MLSettingsData* deffaultSetting =[[MLSettingsData alloc]initSettingWithTimeSelect:ML_DB_SETTING_DEFAULT_SELECT_TIME timeRead:ML_DB_SETTING_DEFAULT_READ_TIME timeType:ML_DB_SETTING_DEFAULT_TYPE_TIME filterSelection:catPairObj];
     return [self saveSetting:deffaultSetting ];
 }
+-(BOOL)resetFilterData
+{
+    MLPair* catPairObj=[self lookUpCatPaidWithIdOne:ML_DB_SETTING_DEFAULT_CATEGORY_ID_PAIR_PART_ONE idTwo:ML_DB_SETTING_DEFAULT_CATEGORY_ID_PAIR_PART_TWO];
+    MLSettingsData* newSetting = [self getSetting];
+    newSetting.settingFilterCatPair=catPairObj;
+    return [self saveSetting:newSetting ];
+}
 -(int)countSettings
 {
     NSString* query = [NSString stringWithFormat:@"SELECT COUNT(%@) FROM %@ ;",ML_DB_SETTING_TABLE_COL_SETTING_ID,ML_DB_SETTING_TABLE_NAME ];

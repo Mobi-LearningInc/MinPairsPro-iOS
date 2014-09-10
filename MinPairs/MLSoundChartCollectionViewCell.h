@@ -28,4 +28,5 @@
  *         it flips back to its original image.
  */
 -(void)flipAnimate:(NSString*) wordFile;
+-(void)flipAnimateWithImage:(UIImage*)image;
 @end

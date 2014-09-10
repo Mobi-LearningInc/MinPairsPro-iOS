@@ -24,6 +24,14 @@
     return self;
 }
 
+-(void)flipAnimateWithImage:(UIImage*) image
+{
+    
+    [UIView transitionWithView:[self imageView] duration:0.5 options:UIViewAnimationOptionTransitionFlipFromRight animations:^{
+        [self.imageView setImage:image];
+    } completion: nil];
+}
+
 -(void)flipAnimate:(NSString*) wordFile
 {
     UIImage* image = nil;

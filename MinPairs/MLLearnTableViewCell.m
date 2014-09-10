@@ -42,18 +42,25 @@
 {
     self.itemPair=itemPair;
     self.catPair=catPair;
+    
     MLItem* itemLeft =itemPair.first;
     MLItem* itemRight = itemPair.second;
     MLCategory* catLeft = catPair.first;
     MLCategory* catRight=catPair.second;
     
+    if(!catLeft)
+    {
+        NSLog(@"investigate if persists with non test packages");
+    }
+    
     self.labelLeft.text=itemLeft.itemDescription;
     self.labelRight.text=itemRight.itemDescription;
     
-    UIImage* imgLeft = [UIImage imageNamed:itemLeft.itemImageFile];
-    UIImage* imgRight = [UIImage imageNamed:itemRight.itemImageFile];
+    UIImage* imgLeft = itemLeft.getItemImage;//[UIImage imageNamed:itemLeft.itemImageFile];
+    UIImage* imgRight = itemRight.getItemImage;//[UIImage imageNamed:itemRight.itemImageFile];
     
     UIImage* catImgLeft = [UIImage imageNamed:catLeft.categoryImageFile];
+    
     //NSLog(@"%@",catLeft.categoryImageFile);
     UIImage* catImgRight = [UIImage imageNamed:catRight.categoryImageFile];
     //NSLog(@"%@",catRight.categoryImageFile);
@@ -94,7 +101,7 @@
 -(void)playItem:(MLItem*)item
 {
     
-    [self.audioPlayer loadFileFromResource:item.itemAudioFile withExtension: @"mp3"];
+    [self.audioPlayer loadFileFromPath:item.getAudioFilePath];
     [self.audioPlayer prepareToPlay];
     [self.audioPlayer play];
     

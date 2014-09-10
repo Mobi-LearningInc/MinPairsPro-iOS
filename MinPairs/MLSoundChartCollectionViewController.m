@@ -116,6 +116,7 @@
         cell.needsToPlayCategorySound=false;
         soundFileName=selectedCategory.categoryAudioFile;
         cell.tapCount++;
+        [self.audioPlayer loadFileFromResource:soundFileName withExtension: @"mp3"];
     }
     else
     {
@@ -124,6 +125,7 @@
             soundFileName = selectedCategory.categoryAudioFile;
             cell.needsToPlayCategorySound=false;
             [cell flipAnimate: nil];
+            [self.audioPlayer loadFileFromResource:soundFileName withExtension: @"mp3"];
         }
         else
         {
@@ -168,14 +170,14 @@
             cell.needsToPlayCategorySound = true;
             cell.tapCount++;
             
-            [cell flipAnimate: [word itemImageFile]];
+            [cell flipAnimateWithImage: [word getItemImage]];//[word itemImageFile]
+            [self.audioPlayer loadFileFromPath:[word getAudioFilePath]];
         }
     }
-    [self.audioPlayer loadFileFromResource:soundFileName withExtension: @"mp3"];
+    
     [self.audioPlayer prepareToPlay];
     [self.audioPlayer play];
 }
-
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {

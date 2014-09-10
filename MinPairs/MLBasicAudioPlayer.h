@@ -44,5 +44,5 @@
  *  @return Returns the a pointer to the initialised instance.
  */
 -(id<MLAudioBase>) init;
-
+-(bool)loadFileFromPath:(NSString*) filePath;
 @end

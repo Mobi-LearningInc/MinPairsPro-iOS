@@ -18,6 +18,7 @@
         self.categoryDescription=description;
         self.categoryAudioFile=audioFile;
         self.categoryImageFile=imageFile;
+        NSLog(@"%@",imageFile);
         self.categorySeparator=seperator;
     }
     return self;

@@ -85,4 +85,5 @@
  * \returns instance of MLItem
  */
 -(MLItem*)getItemWithId:(int)itemId listener:(id<MLDataProviderEventListener>)listener;
+-(void)reloadStaticData;
 @end

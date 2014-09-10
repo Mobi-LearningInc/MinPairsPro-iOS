@@ -20,8 +20,9 @@
 @property (strong,nonatomic)NSString* itemAudioFile;
 ///image file path for the item
 @property (strong,nonatomic)NSString* itemImageFile;
-///deperatior string that seperated each item in the original file
+///seperatior string that seperated each item in the original file
 @property (strong,nonatomic)NSString* itemSeparator;
+
 /*! Constructs instance of MLItem class
  * \param itemId id of the category
  * \param description string field used to display the word
@@ -31,4 +32,6 @@
  * \returns instance of MLItem
  */
 -(instancetype)initItemWithId:(int)itemId description:(NSString*)description audioPath:(NSString*)audioFile imagePath:(NSString*)imageFile seperator:(NSString*)seperator;
+-(UIImage*)getItemImage;
+-(NSString*)getAudioFilePath;
 @end

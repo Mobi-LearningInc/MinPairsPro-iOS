@@ -42,4 +42,5 @@
  *\return status
  */
 -(BOOL)saveDefaultSetting;
+-(BOOL)resetFilterData;
 @end

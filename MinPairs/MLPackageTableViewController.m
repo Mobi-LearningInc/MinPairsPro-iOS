@@ -9,6 +9,8 @@
 #import "MLPackageTableViewController.h"
 #import "MLPackageDownloader.h"
 #import "MLPackageDownloadViewController.h"
+#import "MLMainDataProvider.h"
+#import "MLSettingDatabase.h"
 @interface MLPackageTableViewController ()
 @property(strong, nonatomic) NSArray* availableArr;
 @property(strong,nonatomic)NSArray* downloadedArr;
@@ -166,6 +168,8 @@
     {
         packageName=  [self.downloadedArr objectAtIndex:indexPath.row];
         [MLPackageDownloader saveCurrentPackageName:packageName];
+        [[[MLMainDataProvider alloc]initMainProvider]reloadStaticData];
+        [[[MLSettingDatabase alloc]initSettingDatabase]resetFilterData];
     }
     [tableView reloadData];
 }

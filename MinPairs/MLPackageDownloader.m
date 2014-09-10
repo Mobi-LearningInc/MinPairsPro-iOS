@@ -89,106 +89,7 @@
 }
 +(BOOL)saveFilesToDisk:(MLPackageFileList*)files
 {
-    bool success = true;
-    for(int i =0; i < files.list.count; i++)
-    {
-        
-        NSString* packageIdQuery = [NSString stringWithFormat:@"%@=%@",files.fileServletPackageIdParamName,files.fileServletPackageIdValue];
-        NSString* fileIdQuery=[NSString stringWithFormat:@"%@=%@",files.fileServletFileIdParamName,[files.list objectAtIndex:i] ];
-        NSString* queryStr = [NSString stringWithFormat:@"?%@&%@",packageIdQuery,fileIdQuery];
-        NSURL* fileAddress =[NSURL URLWithString:[files.fileServletUrl.absoluteString stringByAppendingString:queryStr]];
-    
-        #ifdef DEBUG
-                NSLog(@"Loading file from: %@",fileAddress);
-        #endif
-        NSData* data = [NSData dataWithContentsOfURL:fileAddress];
-        if(data)
-        {
-            #ifdef DEBUG
-                NSLog(@"File size:%i",data.length);
-            #endif
-            //todo: store to disk
-            NSString* folderPath;
-            if([[files.list objectAtIndex:i]hasSuffix:@".png"])
-            {
-                 folderPath= [self createDirectory:@"Images"];
-                if(!folderPath)
-                {
-                    #ifdef DEBUG
-                        NSLog(@"Could not create Images folder");
-                    #endif
-                    success=false;
-                }
-            }
-            else if([[files.list objectAtIndex:i]hasSuffix:@".mp3"])
-            {
-                folderPath = [self createDirectory:@"Sounds"];
-                if(!folderPath)
-                {
-                    #ifdef DEBUG
-                        NSLog(@"Could not create Sounds folder");
-                    #endif
-                    success=false;
-                }
-            }
-            else if([[files.list objectAtIndex:i]hasSuffix:@".dat"])
-            {
-                NSString* outerPath = [self createDirectory:@"Data"];
-                if(outerPath)
-                {
-                    folderPath=[self createDirectoryWithPath:outerPath folderName:files.fileServletPackageIdValue];
-                    if(!folderPath)
-                    {
-                        #ifdef DEBUG
-                            NSLog(@"Could not create [%@] folder",files.fileServletPackageIdValue);
-                        #endif
-                        success=false;
-                    }
-                }
-                else
-                {
-                    #ifdef DEBUG
-                        NSLog(@"Could not create Data folder");
-                    #endif
-                    success=false;
-                }
-            }
-            else
-            {
-                #ifdef DEBUG
-                    NSLog(@"Unknown file format.");
-                #endif
-                success=false;
-            }
-            if(folderPath)
-            {
-            //saving to created folder
-            NSString* filePath= [folderPath stringByAppendingPathComponent:[files.list objectAtIndex:i]];
-            if([self writeDataToDisk:data path:filePath])
-            {
-                #ifdef DEBUG
-                    NSLog(@"Saved file to %@",filePath);
-                #endif
-            }
-            else
-            {
-                #ifdef DEBUG
-                    NSLog(@"Could not save %@",filePath);
-                #endif
-                success=false;
-            }
-            }
-        }
-        else
-        {
-            #ifdef DEBUG
-                NSLog(@">>>>>>>Could not load file from %@",fileAddress);
-            #endif
-            success=false;
-        }
-        
-    }
-    return success;
+    return [MLPackageDownloader saveFilesToDisk:files withUpdate:nil];
 }
 +(NSString*)createDirectory:(NSString*)folderName
 {
@@ -255,15 +156,22 @@
         return newDir;
     }
 }
-+(bool)writeDataToDisk:(NSData*)data path:(NSString*)filePath
++(bool)writeDataToDisk:(NSData*)data path:(NSString*)filePath overrideExisting:(BOOL)overrideFlag
 {
-    if([[NSFileManager defaultManager] fileExistsAtPath:filePath])
+    if(overrideFlag)
     {
-        return true;
+        return [data writeToFile:filePath atomically:YES];
     }
     else
     {
-        return [data writeToFile:filePath atomically:YES];
+        if([[NSFileManager defaultManager] fileExistsAtPath:filePath])
+        {
+            return true;
+        }
+        else
+        {
+            return [data writeToFile:filePath atomically:YES];
+        }
     }
 }
 +(NSArray*)getInstalledPackages
@@ -410,7 +318,7 @@
             {
                 //saving to created folder
                 NSString* filePath= [folderPath stringByAppendingPathComponent:[files.list objectAtIndex:i]];
-                if([self writeDataToDisk:data path:filePath])
+                if([self writeDataToDisk:data path:filePath overrideExisting:[[files.list objectAtIndex:i]hasSuffix:@".dat"]?true:false])
                 {
 #ifdef DEBUG
                     NSLog(@"Saved file to %@",filePath);
@@ -434,9 +342,10 @@
         }
         if(updateBlock)
         {
-        updateBlock((float)i/(float)files.list.count,fileIdQuery,data?true:false);
+        updateBlock((float)i/(float)files.list.count,[files.list objectAtIndex:i],data?true:false);
         }
     }
+    
     return success;
 }
 @end

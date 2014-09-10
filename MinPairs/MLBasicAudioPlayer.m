@@ -109,4 +109,17 @@
     self.player = nil;
     return false;
 }
+-(bool)loadFileFromPath:(NSString*) filePath
+{
+    if ([[NSFileManager defaultManager] fileExistsAtPath: filePath])
+    {
+        NSURL* fileURL = [NSURL fileURLWithPath: filePath];
+        self.player = [[AVAudioPlayer alloc] initWithContentsOfURL: fileURL error: nil];
+        [[self player] setDelegate: self];
+        return [self player];
+    }
+    
+    self.player = nil;
+    return false;
+}
 @end

@@ -14,6 +14,7 @@
 @interface MLMainDataProvider : NSObject <MLDataProviderBase>
 
 #define ML_PROVIDER_TYPE_FILE @"FILE"
+#define ML_PROVIDER_TYPE_WEB @"WEB"
 //uncomment on of the following when using different default type of provider
 //#define ML_PROVIDER_TYPE_WEB @"WEB"
 //#define ML_PROVIDER_TYPE_DATABASE @"DATABASE"

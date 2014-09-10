@@ -9,103 +9,108 @@
 #import "MLFileDataProvider.h"
 #import "MLPair.h"
 @implementation MLFileDataProvider
+static NSMutableArray* catArr;
+static NSMutableArray* pairArr;
+static NSMutableArray* itemArr;
+static NSMutableArray* catPairArr;
+static NSMutableArray* catItemPairArr;
 /*! Reads the file resource and returns array of MLCategory objects
  * \returns array of MLCategory objects
  */
 -(NSArray*)getCategories
 {
-    static NSMutableArray* resultArr;
-    if (resultArr==nil)
+    
+    if (catArr==nil)
     {
         
     
     NSString* dataStr =[[NSString alloc]initWithContentsOfFile:[self getFilePath:MP_CATEGORIES_FILENAME type: MP_CATEGORIES_FILETYPE ] encoding:NSUTF8StringEncoding error:nil];
     NSArray* dataLinesStrArr =[dataStr componentsSeparatedByString:MP_LINE_SEPERATOR];
-    resultArr=[NSMutableArray array];
+    catArr=[NSMutableArray array];
     for (int i=0; i<[dataLinesStrArr count]; i++)
     {
         NSArray* dataItemsStrArr = [[dataLinesStrArr objectAtIndex:i]componentsSeparatedByString:MP_DATA_SEPERATOR];
-        [resultArr addObject:[[MLCategory alloc]initCategoryWithId:[[dataItemsStrArr objectAtIndex:0] intValue] description:[dataItemsStrArr objectAtIndex:1] audioPath:[dataItemsStrArr objectAtIndex:2] imagePath:[dataItemsStrArr objectAtIndex:3] seperator:MP_DATA_SEPERATOR]];
+        [catArr addObject:[[MLCategory alloc]initCategoryWithId:[[dataItemsStrArr objectAtIndex:0] intValue] description:[dataItemsStrArr objectAtIndex:1] audioPath:[dataItemsStrArr objectAtIndex:2] imagePath:[dataItemsStrArr objectAtIndex:3] seperator:MP_DATA_SEPERATOR]];
     }
     }
-    return resultArr;
+    return catArr;
 }
 /*! Reads the file resource and returns array of MLItem objects
  * \returns array of MLItem objects
  */
 -(NSArray*)getItems
 {
-    static NSMutableArray* resultArr;
-    if (resultArr==nil)
+    
+    if (itemArr==nil)
     {
 
     NSString* dataStr =[[NSString alloc]initWithContentsOfFile:[self getFilePath:MP_ITEMS_FILENAME type: MP_ITEMS_FILETYPE ] encoding:NSUTF8StringEncoding error:nil];
     NSArray* dataLinesStrArr =[dataStr componentsSeparatedByString:MP_LINE_SEPERATOR];
-    resultArr=[NSMutableArray array];
+    itemArr=[NSMutableArray array];
     for (int i=0; i<[dataLinesStrArr count]; i++)
     {
         NSArray* dataItemsStrArr = [[dataLinesStrArr objectAtIndex:i]componentsSeparatedByString:MP_DATA_SEPERATOR];
-        [resultArr addObject:[[MLItem alloc]initItemWithId:[[dataItemsStrArr objectAtIndex:0]intValue] description:[dataItemsStrArr objectAtIndex:1] audioPath:[dataItemsStrArr objectAtIndex:2] imagePath:[dataItemsStrArr objectAtIndex:3]  seperator:MP_DATA_SEPERATOR]];
+        [itemArr addObject:[[MLItem alloc]initItemWithId:[[dataItemsStrArr objectAtIndex:0]intValue] description:[dataItemsStrArr objectAtIndex:1] audioPath:[dataItemsStrArr objectAtIndex:2] imagePath:[dataItemsStrArr objectAtIndex:3]  seperator:MP_DATA_SEPERATOR]];
     }
     }
-    return resultArr;
+    return itemArr;
 }
 /*! Reads the file resource and returns array of MLPair objects
  * \returns array of MLPair objects
  */
 -(NSArray*)getCategoryPairs
 {
-    static NSMutableArray* resultArr;
-    if (resultArr==nil)
+    
+    if (catPairArr==nil)
     {
         
     NSString* dataStr =[[NSString alloc]initWithContentsOfFile:[self getFilePath:MP_CAT_PAIRS_FILENAME type: MP_CAT_PAIRS_FILETYPE ] encoding:NSUTF8StringEncoding error:nil];
     NSArray* dataLinesStrArr =[dataStr componentsSeparatedByString:MP_LINE_SEPERATOR];
-    resultArr=[NSMutableArray array];
+    catPairArr=[NSMutableArray array];
     for (int i=0; i<[dataLinesStrArr count]; i++)
     {
         NSArray* dataItemsStrArr = [[dataLinesStrArr objectAtIndex:i]componentsSeparatedByString:MP_DATA_SEPERATOR];
         MLCategory* one=[self getCategoryWithId:[[dataItemsStrArr objectAtIndex:0]intValue]];
         MLCategory* two=[self getCategoryWithId:[[dataItemsStrArr objectAtIndex:1]intValue]];
         MLPair* pair =[[MLPair alloc]initPairWithFirstObject:one secondObject:two];
-        [resultArr addObject:pair];
+        [catPairArr addObject:pair];
     }
     }
-    return resultArr;
+    return catPairArr;
 }
 /*! Reads the file resource and returns array of MLPair objects
  * \returns array of MLPair objects
  */
 -(NSArray*)getCategoryItemPairs
 {
-    static NSMutableArray* resultArr;
-    if(resultArr==nil)
+    
+    if(catItemPairArr==nil)
     {
     NSString* dataStr =[[NSString alloc]initWithContentsOfFile:[self getFilePath:MP_ITEMS_CATEGORIES_FILENAME type: MP_ITEMS_CATEGORIES_FILETYPE ] encoding:NSUTF8StringEncoding error:nil];
     NSArray* dataLinesStrArr =[dataStr componentsSeparatedByString:MP_LINE_SEPERATOR];
-    resultArr=[NSMutableArray array];
+    catItemPairArr=[NSMutableArray array];
     for (int i=0; i<[dataLinesStrArr count]; i++)
     {
         NSArray* dataItemsStrArr = [[dataLinesStrArr objectAtIndex:i]componentsSeparatedByString:MP_DATA_SEPERATOR];
         MLCategory* one=[self getCategoryWithId:[[dataItemsStrArr objectAtIndex:0]intValue]];
         MLItem* two=[self getItemWithId:[[dataItemsStrArr objectAtIndex:1]intValue]];
         MLPair* pair =[[MLPair alloc]initPairWithFirstObject:one secondObject:two];
-        [resultArr addObject:pair];
+        [catItemPairArr addObject:pair];
     }
     }
-    return resultArr;
+    return catItemPairArr;
 }
 /*! Reads the file resource and returns array of MLPair objects
  * \returns array of MLPair objects
  */
 -(NSArray*)getPairs
 {
-    static NSMutableArray* resultArr;
-    if(resultArr==nil)
+    
+    if(pairArr==nil)
     {
     NSString* dataStr =[[NSString alloc]initWithContentsOfFile:[self getFilePath:MP_PAIRS_FILENAME type: MP_PAIRS_FILETYPE ] encoding:NSUTF8StringEncoding error:nil];
     NSArray* dataLinesStrArr =[dataStr componentsSeparatedByString:MP_LINE_SEPERATOR];
-    resultArr=[NSMutableArray array];
+    pairArr=[NSMutableArray array];
     
     for (int i=0; i<[dataLinesStrArr count]; i++)
     {
@@ -120,11 +125,11 @@
             MLPair* pairL =[[MLPair alloc]initPairWithFirstObject:one secondObject:two];
             MLPair* pairR =[[MLPair alloc]initPairWithFirstObject:three secondObject:four];
             MLPair* pair =[[MLPair alloc]initPairWithFirstObject:pairL secondObject:pairR];
-            [resultArr addObject:pair];
+            [pairArr addObject:pair];
         }
     }
     }
-    return resultArr;
+    return pairArr;
 }
 /*! Reads the file resource and return single MLCategory object with given id, or nil if id doesnt exist
  * \param id
@@ -242,5 +247,13 @@
 -(NSString*)getFilePath:(NSString*)fileName type:(NSString*)fileType
 {
     return [[NSBundle mainBundle]pathForResource:fileName ofType:fileType];
+}
+-(void)reloadStaticData
+{
+    catArr =nil;
+    pairArr=nil;
+    itemArr=nil;
+    catPairArr=nil;
+    catItemPairArr=nil;
 }
 @end
