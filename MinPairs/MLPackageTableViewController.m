@@ -14,10 +14,12 @@
 @interface MLPackageTableViewController ()
 @property(strong, nonatomic) NSArray* availableArr;
 @property(strong,nonatomic)NSArray* downloadedArr;
+@property (strong, nonatomic) IBOutlet UITableView *mainTableView;
+
 @end
 
 @implementation MLPackageTableViewController
-
+static bool firstOpened=true;
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -159,7 +161,16 @@
     if(indexPath.section == 0)
     {
         packageName=  [self.availableArr objectAtIndex:indexPath.row];
-        
+        if([[MLPackageDownloader getInstalledPackages] containsObject:packageName])
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Alert!"
+                                                            message:@"You already have this package installed."
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+            [alert show];
+            return;
+        }
         MLPackageDownloadViewController*pdvc=[self.storyboard instantiateViewControllerWithIdentifier:@"DownloadViewController"];
         pdvc.packageToDownload=packageName;
         [self presentViewController:pdvc animated:YES completion:nil];
@@ -174,6 +185,21 @@
     [tableView reloadData];
 }
 
+-(void)viewDidAppear:(BOOL)animated
+{
+    
+}
+-(void)viewWillAppear:(BOOL)animated
+{
+    if(firstOpened)
+    {
+        firstOpened=false;
+    }
+    else
+    {
+        [self.mainTableView reloadData]; //refresh because we returned from download controller//[self.tableView performSelector:@selector(reloadData) withObject:nil afterDelay:1.0];//
+    }
+}
 
 /*
 // Override to support conditional editing of the table view.

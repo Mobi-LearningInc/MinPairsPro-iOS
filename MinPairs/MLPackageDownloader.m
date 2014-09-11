@@ -243,6 +243,7 @@
 +(BOOL)saveFilesToDisk:(MLPackageFileList*)files withUpdate:(void(^)(float percent, NSString* fileName, BOOL status))updateBlock
 {
     bool success = true;
+    int failCount=0;
     for(int i =0; i < files.list.count; i++)
     {
         
@@ -339,13 +340,14 @@
             NSLog(@">>>>>>>Could not load file from %@",fileAddress);
 #endif
             success=false;
+            failCount++;
         }
         if(updateBlock)
         {
         updateBlock((float)i/(float)files.list.count,[files.list objectAtIndex:i],data?true:false);
         }
     }
-    
+
     return success;
 }
 @end

@@ -33,7 +33,9 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self.progressBar setProgress:0.0f animated:NO];
     [self startDownload];
+    self.buttonDone.hidden=true;
     
 }
 - (IBAction)onDoneButton:(id)sender {
@@ -61,6 +63,9 @@
                         [self performSelectorOnMainThread:@selector(setTitle:) withObject:@"Finished." waitUntilDone:NO];
                         [self performSelectorOnMainThread:@selector(setSubTitle:) withObject:@"Done." waitUntilDone:NO];
                         [self performSelectorOnMainThread:@selector(setPercent:) withObject:[NSNumber numberWithFloat:1.0f] waitUntilDone:NO];
+                        NSLog(@"Finished download. Status:%hhd",success);
+                        [self dismissViewControllerAnimated:YES completion:nil];
+                        
                     } withUpdate:^(float percent, NSString *fileName, BOOL status) {
                         [self performSelectorOnMainThread:@selector(setSubTitle:) withObject:[NSString stringWithFormat:@"Download:%@ Status:%@",fileName,status?@"OK":@"FAILED"] waitUntilDone:NO];
                         [self performSelectorOnMainThread:@selector(setPercent:) withObject:[NSNumber numberWithFloat:percent] waitUntilDone:NO];
@@ -75,6 +80,13 @@
                     #ifdef DEBUG
                     NSLog(@"Nil FileList object.");
                     #endif
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Network problem!"
+                                                                    message:@"Could not download package. Check internet connection or try again later."
+                                                                   delegate:nil
+                                                          cancelButtonTitle:@"OK"
+                                                          otherButtonTitles:nil];
+                    [alert show];
+                    [self dismissViewControllerAnimated:YES completion:nil];
                 }
             }];
         }];

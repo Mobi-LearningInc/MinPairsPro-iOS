@@ -16,7 +16,8 @@
 #import "MLTinCanConnector.h"
 #import "MLLsrCredentials.h"
 #import "MLLrsCredentialsDatabase.h"
-
+#import "MLPackageDownloader.h"
+#import "MLPackageDownloadViewController.h"
 @interface MLViewController ()
 @property (nonatomic, strong) MLLrsCredentialsDatabase* lrsDatabase;
 @property (nonatomic, strong) MLTinCanConnector* tincan;
@@ -78,6 +79,14 @@
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"TinCanSwitch"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         //[self.tincan saveSampleActivity];
+    }
+    
+    if(![MLPackageDownloader getInstalledPackages]||[MLPackageDownloader getInstalledPackages].count==0)
+    {
+        MLPackageDownloadViewController*pdvc=[self.storyboard instantiateViewControllerWithIdentifier:@"DownloadViewController"];
+        pdvc.packageToDownload=@"default";
+        [self presentViewController:pdvc animated:YES completion:nil];
+        [MLPackageDownloader saveCurrentPackageName:@"default"];
     }
 }
 
