@@ -36,7 +36,7 @@
 {
     self.audioPlayer=[[MLBasicAudioPlayer alloc]init];
     self.indexLabel.text=[NSString stringWithFormat:@"#%i",index];
-    UIImage* imgLeft =[UIImage imageNamed:correctItem.itemImageFile];
+    UIImage* imgLeft =correctItem.getItemImage;//[UIImage imageNamed:correctItem.itemImageFile];
     if(imgLeft)
     {
         self.imgViewLeft.image=imgLeft;
@@ -60,7 +60,7 @@
 -(void)playItem:(MLItem*)item
 {
     
-    [self.audioPlayer loadFileFromResource:item.itemAudioFile withExtension: @"mp3"];
+    [self.audioPlayer loadFileFromPath:item.getAudioFilePath];//[self.audioPlayer loadFileFromResource:item.itemAudioFile withExtension: @"mp3"];
     [self.audioPlayer prepareToPlay];
     [self.audioPlayer play];
 }

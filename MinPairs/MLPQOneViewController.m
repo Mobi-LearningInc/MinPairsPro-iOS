@@ -66,8 +66,8 @@
         self.itemLeft = itemPair.second;
         self.itemRight = itemPair.first;
     }
-    UIImage* imgLeft =([UIImage imageNamed:self.itemLeft.itemImageFile]==NULL)?[UIImage imageNamed:@"na1.png"]:[UIImage imageNamed:self.itemLeft.itemImageFile];
-    UIImage* imgRight=([UIImage imageNamed:self.itemRight.itemImageFile]==NULL)?[UIImage imageNamed:@"na1.png"]:[UIImage imageNamed:self.itemRight.itemImageFile];
+    UIImage* imgLeft =self.itemLeft.getItemImage;//([UIImage imageNamed:self.itemLeft.itemImageFile]==NULL)?[UIImage imageNamed:@"na1.png"]:[UIImage imageNamed:self.itemLeft.itemImageFile];
+    UIImage* imgRight=self.itemRight.getItemImage;([UIImage imageNamed:self.itemRight.itemImageFile]==NULL)?[UIImage imageNamed:@"na1.png"]:[UIImage imageNamed:self.itemRight.itemImageFile];
     [self.leftImgBtn setImage:imgLeft forState:UIControlStateNormal];
     [self.rightImgBtn setImage:imgRight forState:UIControlStateNormal];
     int rand = arc4random_uniform(2);

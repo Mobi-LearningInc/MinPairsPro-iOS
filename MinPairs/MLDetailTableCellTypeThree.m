@@ -59,7 +59,7 @@
 -(void)playItem:(MLItem*)item
 {
     
-    [self.audioPlayer loadFileFromResource:item.itemAudioFile withExtension: @"mp3"];
+    [self.audioPlayer loadFileFromPath:item.getAudioFilePath];//[self.audioPlayer loadFileFromResource:item.itemAudioFile withExtension: @"mp3"];
     [self.audioPlayer prepareToPlay];
     [self.audioPlayer play];
 }
